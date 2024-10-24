@@ -1,17 +1,22 @@
-// src/Login.js
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  // State for managing form inputs
+
+const SignUp = ({ onToggle }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate()
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(`Login with Email: ${email}, Password: ${password}`);
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    alert(`Sign up with Email: ${email}, Password: ${password}`);
+    navigate('/home')
   };
 
   return (
@@ -42,7 +47,7 @@ const Login = () => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="password" className="form-label">Confirm Password</label>
+            <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
             <input
               type="password"
               className="form-control"
@@ -53,12 +58,15 @@ const Login = () => {
             />
           </div>
           <button type="submit" className="btn btn-primary w-100">
-            Login
+            Sign Up
           </button>
         </form>
+        <div className="mt-3 text-center">
+          <a href="#" className="text-secondary" onClick={onToggle}>Already have an account?</a>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;

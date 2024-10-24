@@ -1,16 +1,18 @@
-// src/Login.js
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  // State for managing form inputs
+const Login = ({ onToggle }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate()
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     alert(`Login with Email: ${email}, Password: ${password}`);
+
+    navigate('/home')
   };
 
   return (
@@ -46,6 +48,9 @@ const Login = () => {
         </form>
         <div className="mt-3 text-center">
           <a href="#" className="text-secondary">Forgot password?</a>
+        </div>
+        <div className="mt-3 text-center">
+          <a href="#" className="text-secondary" onClick={onToggle}>New User?</a>
         </div>
       </div>
     </div>
