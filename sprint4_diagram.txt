@@ -1,0 +1,29 @@
+@startuml
+
+class University {
+    - name : String
+    - departments : List<Department>
+}
+
+class Department {
+    - name : String
+    - courses : List<Course>
+    + hire_prof() : void
+    + assign_prof(course : Course) : void
+}
+
+class Course {
+    - name : String
+    - professor : Professor
+}
+
+class Professor {
+    - name : String
+    + teach_course() : void
+}
+
+University "1" *-- "0..*" Department : contains
+Department "1" *-- "0..*" Course : offers
+Course "1" *-- "1" Professor : taught by
+
+@enduml

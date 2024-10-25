@@ -1,38 +1,40 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Login from './authentication/Login'
-import SignUp from './authentication/SignUp'
-import Home from './pages/Home'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./authentication/Login";
+import SignUp from "./authentication/SignUp";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { auth } from "./authentication/firebase.js";
 
-
-const App = () => {
-  const [isLogin, setIsLogin] = useState(true);
-
+function App() {
+  const [user, setUser] = useState();
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+  });
   return (
     <Router>
-      <Routes>
-        {/* Define the home route */}
-        <Route path="/home" element={<Home />} />
-
-        {/* Define a route for Login/SignUp with toggle */}
-        <Route
-          path="/"
-          element={
-            <div>
-              {isLogin ? (
-                <Login onToggle={() => setIsLogin(false)} />
-              ) : (
-                <SignUp onToggle={() => setIsLogin(true)} />
-              )}
-            </div>
-          }
-        />
-      </Routes>
+      <div className="App">
+        <div className="auth-wrapper">
+          <div className="auth-inner">
+            <Routes>
+              <Route
+                path="/"
+                // element={user ? <Navigate to="/profile" /> : <Login />}
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<SignUp />} />
+            </Routes>
+            <ToastContainer />
+          </div>
+        </div>
+      </div>
     </Router>
   );
-};
+}
 
 export default App

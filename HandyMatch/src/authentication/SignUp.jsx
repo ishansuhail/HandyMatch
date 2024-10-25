@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from "react-router-dom";
-
+import { auth } from "./firebase";
 
 const SignUp = ({ onToggle }) => {
   const [email, setEmail] = useState("");
