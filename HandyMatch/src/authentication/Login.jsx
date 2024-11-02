@@ -42,7 +42,7 @@ function Login() {
     }
 
     return (
-        <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
+        <div className="d-flex align-items-center justify-content-center vh-100 bg-white">
             <div className="p-4 bg-white rounded shadow-sm" style={{ width: '350px' }}>
                 {/* Log In Heading */}
                 <h4 className="mb-2 text-left">Log In</h4>

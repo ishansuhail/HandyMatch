@@ -1,74 +1,61 @@
+// src/pages/ProfessionalDash.jsx
 import React from 'react';
+import Sidebar from '../components/Sidebar';
+import ClientRequestCard from '../components/ClientRequestCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Card, Container, Row, Col } from 'react-bootstrap';
-
-const professionalName = "John Doe";
+import { FaUserCircle, FaBell, FaCog } from 'react-icons/fa';
 
 const requests = [
-    { id: 1, service: 'Landscaping', date: '2024-11-05', details: 'Looking to redesign my backyard with flower beds and a patio area.' },
-    { id: 2, service: 'HVAC', date: '2024-11-10', details: 'Need annual maintenance check before winter starts.' },
-    { id: 3, service: 'Plumbing', date: '2024-11-15', details: 'Fixing a leaky faucet in the kitchen.' },
+  { name: "John D.", role: "Homeowner", dateRequested: "11/1/24", description: "I'd like someone to landscape my garden" },
+  { name: "Amber T.", role: "Homeowner", dateRequested: "10/29/24", description: "I'd like a patio to be installed around my new pool" },
+  { name: "Michael B.", role: "Homeowner", dateRequested: "10/25/24", description: "Need a new roof for my house" },
+  { name: "Sarah W.", role: "Homeowner", dateRequested: "10/20/24", description: "Looking for someone to paint my living room" },
+  { name: "David K.", role: "Homeowner", dateRequested: "10/18/24", description: "Need plumbing work in the kitchen" },
+  { name: "Emma R.", role: "Homeowner", dateRequested: "10/15/24", description: "Want to install new windows in my house" },
+  { name: "Olivia P.", role: "Homeowner", dateRequested: "10/10/24", description: "Looking for someone to build a deck in my backyard" },
+  { name: "Liam N.", role: "Homeowner", dateRequested: "10/05/24", description: "Need electrical work done in the basement" },
+  { name: "Sophia M.", role: "Homeowner", dateRequested: "10/01/24", description: "Want to remodel my bathroom" },
+  { name: "James L.", role: "Homeowner", dateRequested: "09/28/24", description: "Need someone to install a new fence" }
 ];
 
-function HandyMatchDashboard() {
-    const handleAccept = (id) => {
-        console.log(`Accepted request ID: ${id}`);
-        // Add functionality to accept the request
-    };
+const ProfessionalDash = () => {
+  return (
+    <div className="d-flex">
+      {/* Sidebar */}
+      <Sidebar />
 
-    const handleDeny = (id) => {
-        console.log(`Denied request ID: ${id}`);
-        // Add functionality to deny the request
-    };
+      {/* Main Content */}
+      <div className="flex-grow-1">
+        {/* Top Header with Icons */}
+        <div className="d-flex justify-content-between align-items-center px-4 py-2 bg-light border-bottom">
+          <div className="d-flex align-items-center">
+            <FaUserCircle size={24} className="me-2" />
+          </div>
+          <div className="d-flex align-items-center">
+            <FaBell size={20} className="me-3" />
+            <FaCog size={20} />
+          </div>
+        </div>
 
-    return (
-        <Container fluid className="vh-100 d-flex p-0">
-            {/* Sidebar */}
-            <div className="bg-dark text-white p-3" style={{ width: '250px' }}>
-                <h4 className="mb-4">HandyMatch</h4>
-                <Nav className="flex-column">
-                    <Nav.Link href="/" className="text-white">Home</Nav.Link>
-                    <Nav.Link href="/past-jobs" className="text-white">Past Jobs</Nav.Link>
-                    <Nav.Link href="/reviews" className="text-white">Reviews</Nav.Link>
-                    <Nav.Link href="/settings" className="text-white">Settings</Nav.Link>
-                </Nav>
-            </div>
+        {/* Title Bar */}
+        <div className="bg-dark text-white py-3 px-4">
+          <h1 className="mb-0">Bob The Builder</h1>
+        </div>
 
-            {/* Main Content */}
-            <div className="flex-grow-1">
-                {/* Header */}
-                <Navbar bg="light" className="px-4 shadow-sm">
-                    <Navbar.Brand>Welcome, {professionalName}</Navbar.Brand>
-                </Navbar>
+        {/* Client Requests Section */}
+        <div className="p-4" style={{ paddingRight: '2rem' }}>
+          <h4 className="mb-4">Client Requests ({requests.length})</h4>
+          <div className="row">
+            {requests.map((request, index) => (
+              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4" key={index}>
+                <ClientRequestCard {...request} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-                {/* Client Requests Section */}
-                <Container className="mt-4">
-                    <h2 className="mb-4">Client Requests</h2>
-                    <Row>
-                        {requests.map((request) => (
-                            <Col key={request.id} md={6} lg={4} className="mb-4">
-                                <Card className="shadow-sm">
-                                    <Card.Body>
-                                        <Card.Title>{request.service}</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted">{request.date}</Card.Subtitle>
-                                        <Card.Text>{request.details}</Card.Text>
-                                        <div className="d-flex justify-content-between">
-                                            <Button variant="success" onClick={() => handleAccept(request.id)}>
-                                                Accept
-                                            </Button>
-                                            <Button variant="danger" onClick={() => handleDeny(request.id)}>
-                                                Deny
-                                            </Button>
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))}
-                    </Row>
-                </Container>
-            </div>
-        </Container>
-    );
-}
-
-export default HandyMatchDashboard;
+export default ProfessionalDash;
