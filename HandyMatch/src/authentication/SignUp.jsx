@@ -22,12 +22,20 @@ const SignUp = ({ onToggle }) => {
       alert("Passwords do not match");
       return;
     }
-    const status = await signUp(email, password)
+    try {
+      const status = await signUp(email, password);
+      console.log("Signup successful:", status);
+    } catch (error) {
+      console.error("Signup error:", error);
+      if (error.code === "auth/email-already-in-use") {
+        console.error("This email is already registered.");
+      } else if (error.code === "auth/invalid-email") {
+        console.error("Invalid email format.");
+      } else {
+        console.error("An unknown error occurred.");
+      }
+    }
 
-    console.log(status)
-
-    alert(`Sign up with Email: ${email}, Password: ${password}`);
-    
     
     navigate('/home')
   };
