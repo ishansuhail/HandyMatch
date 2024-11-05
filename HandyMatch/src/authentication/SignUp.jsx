@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from "react-router-dom";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
+import { setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUp = ({ onToggle }) => {
@@ -12,7 +13,19 @@ const SignUp = ({ onToggle }) => {
   const navigate = useNavigate()
 
 
-  function signUp(email, password) {
+  async function signUp(email, password) {
+    const isProfessional = (userType) => userType === "Professional";
+    
+    try {
+      await setDoc(doc(db, "users", email), {
+        isProfessional: isProfessional(userType),
+        createdAt: new Date(),
+      });
+      console.log("Document written with ID: ");
+    }catch (err) {
+      console.error("Error adding document: ", err);
+    }
+
     return createUserWithEmailAndPassword(auth, email, password);
   }
 
@@ -36,12 +49,12 @@ const SignUp = ({ onToggle }) => {
       }
     }
 
-    if (userType === "Customer"){
-      navigate('/home')
-    }
-    else{
-      navigate('/professional-dashboard')
-    }
+      if (userType === "Customer"){
+        navigate('/home')
+      }
+      else{
+        navigate('/professional-dashboard')
+      }
   };
 
   
