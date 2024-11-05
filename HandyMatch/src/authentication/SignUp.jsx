@@ -36,8 +36,12 @@ const SignUp = ({ onToggle }) => {
       }
     }
 
-    
-    navigate('/home')
+    if (userType === "Customer"){
+      navigate('/home')
+    }
+    else{
+      navigate('/professional-dashboard')
+    }
   };
 
   
