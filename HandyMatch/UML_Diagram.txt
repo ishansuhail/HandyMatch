@@ -1,0 +1,62 @@
+@startuml
+title HandyMatch Class Diagram
+
+class App {
+    - user: Object
+    + App(): void
+    + useEffect(): void
+    + setUser(): void
+}
+
+class Login {
+    - email: string
+    - password: string
+    - error: string
+    + handleLoginClick(): void
+    + handleGoogleSignIn(): void
+}
+
+class SignUp {
+    - email: string
+    - password: string
+    - confirmPassword: string
+    - userType: string
+    + signUp(): void
+    + handleGoogleSignUp(): void
+    + handleSubmit(): void
+}
+
+class ClientRequestCard {
+    - name: string
+    - role: string
+    - image: string
+    - dateRequested: string
+    - description: string
+    + render(): JSX
+}
+
+class Sidebar {
+    - collapsed: bool
+    + toggleSidebar(): void
+}
+
+class ProfessionalDash {
+    + requests: Array<Object>
+    + render(): JSX
+}
+
+class FirebaseConfig {
+    - firebaseConfig: Object
+    + initializeApp(): Object
+    + getAuth(): Object
+    + getFirestore(): Object
+}
+
+App --> Login
+App --> SignUp
+App --> ProfessionalDash
+ProfessionalDash --> ClientRequestCard
+ProfessionalDash --> Sidebar
+FirebaseConfig ..> App : Dependency
+
+@enduml

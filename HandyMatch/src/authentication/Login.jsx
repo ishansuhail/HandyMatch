@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from 'react-router-dom';
 import GoogleButton from "react-google-button";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Link } from 'react-router-dom';
 import { auth } from './firebase'; // Adjust the path as necessary
 
@@ -23,19 +23,10 @@ function Login() {
     }
 
     const handleGoogleSignIn = async () => {
-        try {
-            const response = await fetch('http://localhost:3001/googleSignIn', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const data = await response.json();
-            if (data.status === 'success') {
-                navigate('/');
-            } else {
-                setError(data.message);
-            }
+        const provider = new GoogleAuthProvider();
+        try { 
+            const result = await signInWithPopup(auth, provider);
+            navigate('/professional-dashboard'); // Navigate to home or dashboard on success
         } catch (error) {
             setError(error.message);
         }
