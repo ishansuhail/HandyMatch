@@ -19,7 +19,19 @@ const SignUp = ({ onToggle }) => {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const navigate = useNavigate();
 
-  function signUp(email, password) {
+  async function signUp(email, password) {
+    const isProfessional = (userType) => userType === "Professional";
+    
+    try {
+      await setDoc(doc(db, "users", email), {
+        isProfessional: isProfessional(userType),
+        createdAt: new Date(),
+      });
+      console.log("Document written with ID: ");
+    }catch (err) {
+      console.error("Error adding document: ", err);
+    }
+
     return createUserWithEmailAndPassword(auth, email, password);
   }
 
