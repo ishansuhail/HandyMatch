@@ -61,37 +61,37 @@ const testimonials = [
     quote: "I was able to book an appointment to fix my sink the next day thanks to HomePage!",
     name: "Clara",
     date: "Sept 2024",
-    avatar: "https://via.placeholder.com/40", // Replace with actual image source
+    avatar: "https://static.vecteezy.com/system/resources/previews/014/194/216/non_2x/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg", // Replace with actual image source
   },
   {
     quote: "The chat feature helped me communicate with the electrician in a timely manner.",
     name: "Joe",
     date: "July 2024",
-    avatar: "https://via.placeholder.com/40",
+    avatar: "https://www.pngall.com/wp-content/uploads/12/Avatar-Profile-PNG-Photos.png",
   },
   {
     quote: "The easy to use website made booking an appointment in an emergency easy.",
     name: "Sasha",
     date: "May 2024",
-    avatar: "https://via.placeholder.com/40",
+    avatar: "https://cdn.vectorstock.com/i/1000v/71/87/male-avatar-profile-icon-round-man-face-vector-18307187.jpg",
   },
   {
     quote: "The calendar was so helpful to make sure my schedule aligned with the professional I booked.",
     name: "Tim",
     date: "Aug 2024",
-    avatar: "https://via.placeholder.com/40",
+    avatar: "https://cdn.vectorstock.com/i/1000v/71/98/male-avatar-profile-icon-round-man-face-vector-18307198.jpg",
   },
   {
     quote: "As an electrician, the profile setup was super easy and made it simple for clients to reach out to me about a job.",
     name: "Bob",
     date: "July 2024",
-    avatar: "https://via.placeholder.com/40",
+    avatar: "https://static.vecteezy.com/system/resources/previews/006/487/917/original/man-avatar-icon-free-vector.jpg",
   },
   {
     quote: "When I needed help for two different services, I was able to book them quickly and at a great rate.",
     name: "Kelly",
     date: "June 2024",
-    avatar: "https://via.placeholder.com/40",
+    avatar: "https://cdn1.iconfinder.com/data/icons/avatars-1-5/136/87-512.png",
   },
 ];
 
