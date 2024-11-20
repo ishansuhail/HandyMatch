@@ -1,8 +1,9 @@
 // src/components/ClientRequestCard.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaExclamationCircle } from 'react-icons/fa';
 
-function ClientRequestCard({ name, role, image, dateRequested, description }) {
+function ClientRequestCard({ name, role, image, dateRequested, description, isEmergency }) {
   const initials = name.split(' ').map(n => n[0]).join('');
 
   return (
@@ -13,7 +14,14 @@ function ClientRequestCard({ name, role, image, dateRequested, description }) {
             {initials}
           </div>
           <div className="ms-3">
-            <h5 className="card-title mb-0">{name}</h5>
+            <h5 className="card-title mb-0">
+              {name}
+              {isEmergency && (
+                <span className="badge bg-danger text-white ms-2" style={{ fontSize: '0.9em' }}>
+                  <FaExclamationCircle /> Emergency
+                </span>
+              )}
+            </h5>
             <p className="card-subtitle text-muted">{role}</p>
           </div>
         </div>
