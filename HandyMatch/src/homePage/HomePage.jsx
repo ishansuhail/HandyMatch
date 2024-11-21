@@ -1,7 +1,23 @@
 import React from 'react';
+import { useState } from 'react';
 import { Container, Row, Col, Button, Card, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+  const [task, setTask] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const navigate = useNavigate();
+
+
+  const handleSearch = () => {
+    if (task && zipCode) {
+      // Navigate to another page with query parameters
+      navigate(`/search?task=${encodeURIComponent(task)}&zipCode=${encodeURIComponent(zipCode)}`);
+    } else {
+      alert("Please fill in both fields.");
+    }
+  };
+
   return (
     <Container fluid className="w-100 mt-1">
       <div className='bg-secondary'></div>
@@ -12,17 +28,29 @@ const HomePage = () => {
             <p className="lead">Book the Best, Fix the Rest</p>
         </div>
 
-        
+        {/* Search Bar */}
         <Row className="justify-content-center">
-            <Col xs={12} md={4} className="mb-2">
-            <Form.Control type="text" placeholder="Request a Task" />
-            </Col>
-            <Col xs={12} md={4} className="mb-2">
-            <Form.Control type="text" placeholder="My ZipCode" />
-            </Col>
-            <Col xs="auto" className="d-flex align-items-center">
-            <Button variant="dark">Search</Button>
-            </Col>
+          <Col xs={12} md={4} className="mb-2">
+            <Form.Control
+              type="text"
+              placeholder="Request a Task"
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+            />
+          </Col>
+          <Col xs={12} md={4} className="mb-2">
+            <Form.Control
+              type="text"
+              placeholder="My ZipCode"
+              value={zipCode}
+              onChange={(e) => setZipCode(e.target.value)}
+            />
+          </Col>
+          <Col xs="auto" className="d-flex align-items-center">
+            <Button variant="dark" onClick={handleSearch}>
+              Search
+            </Button>
+          </Col>
         </Row>
       </div>
 
