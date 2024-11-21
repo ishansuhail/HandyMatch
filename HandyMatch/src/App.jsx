@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./authentication/firebase.js";
 import SearchResults from './resultsPage/SearchResults.jsx';
+import HomeownerProfile from './HomeownerProfile/HomeownerProfile';
 
 function App() {
   const [user, setUser] = useState();
@@ -32,6 +33,7 @@ function App() {
               <Route path="/professional-dashboard" element={<ProfessionalDash />} />
               <Route path = "/home" element={<HomePage />} />
               <Route path="/professional-profile" element={<ProfessionalProfile />} />
+              <Route path="/homeowner-profile" element={<HomeownerProfile />} />
               <Route path = "/search" element={<SearchResults />} />
             </Routes>
             <ToastContainer />

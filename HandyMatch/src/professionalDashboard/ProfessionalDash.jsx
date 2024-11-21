@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import ClientRequestCard from '../components/ClientRequestCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaUserCircle, FaBell, FaCog } from 'react-icons/fa';
+import './ProfessionalDash.css';
 
 const requests = [
   { name: "John D.", role: "Homeowner", dateRequested: "11/1/24", description: "I'd like someone to landscape my garden", isEmergency: false },
@@ -15,7 +16,7 @@ const requests = [
   { name: "Olivia P.", role: "Homeowner", dateRequested: "10/10/24", description: "Looking for someone to build a deck in my backyard", isEmergency: false },
   { name: "Liam N.", role: "Homeowner", dateRequested: "10/05/24", description: "Need electrical work done in the basement", isEmergency: false },
   { name: "Sophia M.", role: "Homeowner", dateRequested: "10/01/24", description: "Want to remodel my bathroom", isEmergency: false },
-  { name: "James L.", role: "Homeowner", dateRequested: "09/28/24", description: "Need someone to install a new fence", isEmergency: false }
+  { name: "James L.", role: "Homeowner", dateRequested: "09/28/24", description: "Need someone to install a new fence", isEmergency: false },
 ];
 
 const ProfessionalDash = () => {
