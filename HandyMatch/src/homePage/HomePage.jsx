@@ -1,13 +1,12 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Button, Card, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './HomePage.css'; // Import the CSS file
 
 const HomePage = () => {
   const [task, setTask] = useState('');
   const [zipCode, setZipCode] = useState('');
   const navigate = useNavigate();
-
 
   const handleSearch = () => {
     if (task && zipCode) {
@@ -18,30 +17,40 @@ const HomePage = () => {
     }
   };
 
+  const handleAccountClick = () => {
+    navigate('/homeowner-profile'); // Navigate to homeowner profile
+  };
+
   return (
     <Container fluid className="w-100 mt-1">
-      <div className='bg-secondary'></div>
-      <div style = {{backgroundColor: '#d3d3d3'}}className='pb-5 pt-4'>
-        {/* Header */}
-        <div className="text-center mb-4">
-            <h1 className="display-4">Handy Match</h1>
-            <p className="lead">Book the Best, Fix the Rest</p>
-        </div>
+      {/* Header */}
+      <div className="header-container">
+        <h1 className="header-title">Handy Match</h1>
+        <p className="header-subtitle">Book the Best, Fix the Rest</p>
+        <Button 
+          variant="dark" 
+          onClick={handleAccountClick} 
+          className="my-account-button"
+        >
+          My Account
+        </Button>
+      </div>
 
-        {/* Search Bar */}
+      {/* Search Section */}
+      <div style={{ backgroundColor: '#d3d3d3' }} className="pb-5 pt-4">
         <Row className="justify-content-center">
           <Col xs={12} md={4} className="mb-2">
             <Form.Select
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
-            aria-label="Select a task"
-          >
-            <option value="">Select a Task</option> {/* Default placeholder */}
-            <option value="plumbing">Plumbing</option>
-            <option value="hvac">HVAC</option>
-            <option value="roofing">Roofing</option>
-            <option value="gardening">Gardening</option>
-          </Form.Select>
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+              aria-label="Select a task"
+            >
+              <option value="">Select a Task</option>
+              <option value="plumbing">Plumbing</option>
+              <option value="hvac">HVAC</option>
+              <option value="roofing">Roofing</option>
+              <option value="gardening">Gardening</option>
+            </Form.Select>
           </Col>
           <Col xs={12} md={4} className="mb-2">
             <Form.Control
@@ -59,7 +68,7 @@ const HomePage = () => {
         </Row>
       </div>
 
-      
+      {/* Testimonials Section */}
       <h3 className="text-center mt-3 mb-4">Client Testimonials</h3>
       <Row className="gy-4">
         {testimonials.map((testimonial, index) => (
@@ -94,7 +103,7 @@ const testimonials = [
     quote: "I was able to book an appointment to fix my sink the next day thanks to HomePage!",
     name: "Clara",
     date: "Sept 2024",
-    avatar: "https://static.vecteezy.com/system/resources/previews/014/194/216/non_2x/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg", // Replace with actual image source
+    avatar: "https://static.vecteezy.com/system/resources/previews/014/194/216/non_2x/avatar-icon-human-a-person-s-badge-social-media-profile-symbol-the-symbol-of-a-person-vector.jpg",
   },
   {
     quote: "The chat feature helped me communicate with the electrician in a timely manner.",

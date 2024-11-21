@@ -1,4 +1,3 @@
-// src/components/HomeownerSidebar.jsx
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -33,9 +32,10 @@ function HomeownerSidebar() {
         <FaBars />
       </button>
       <nav className="nav flex-column">
+        {/* Updated "Search for Jobs" tab to route to /home */}
         <a
-          href="/search-jobs"
-          className={`nav-link text-dark d-flex align-items-center mb-3 ${isActive(['/search-jobs'])}`}
+          href="/home"
+          className={`nav-link text-dark d-flex align-items-center mb-3 ${isActive(['/home'])}`}
         >
           <FaSearch className="me-2" />
           {!collapsed && <span>Search for Jobs</span>}

@@ -19,7 +19,7 @@ const SearchResults = () => {
   return (
     <Container className="mt-4">
       {/* Title Section */}
-      <h2 className="mb-3">Showing Results for {task} near {zipCode}</h2>
+      <h2 className="mb-3">HandyMatches for {task} near {zipCode}</h2>
 
       {/* Search Bar */}
       <Row className="mb-4">
