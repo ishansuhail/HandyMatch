@@ -31,12 +31,17 @@ const HomePage = () => {
         {/* Search Bar */}
         <Row className="justify-content-center">
           <Col xs={12} md={4} className="mb-2">
-            <Form.Control
-              type="text"
-              placeholder="Request a Task"
-              value={task}
-              onChange={(e) => setTask(e.target.value)}
-            />
+            <Form.Select
+            value={task}
+            onChange={(e) => setTask(e.target.value)}
+            aria-label="Select a task"
+          >
+            <option value="">Select a Task</option> {/* Default placeholder */}
+            <option value="plumbing">Plumbing</option>
+            <option value="hvac">HVAC</option>
+            <option value="roofing">Roofing</option>
+            <option value="gardening">Gardening</option>
+          </Form.Select>
           </Col>
           <Col xs={12} md={4} className="mb-2">
             <Form.Control
