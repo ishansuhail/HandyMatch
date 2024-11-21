@@ -11,6 +11,7 @@ import ProfessionalProfile from './professionalProfile/ProfessionalProfile';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./authentication/firebase.js";
+import SearchResults from './resultsPage/SearchResults.jsx';
 
 function App() {
   const [user, setUser] = useState();
@@ -25,16 +26,14 @@ function App() {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <Routes>
-              <Route
-                path="/"
-                element={<Login />}
-              />
+              <Route path="/"element={<Login />}/>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<SignUp />} />
               <Route path="/professional-dashboard" element={<ProfessionalDash />} />
               <Route path = "/home" element={<HomePage />} />
               <Route path="/professional-profile" element={<ProfessionalProfile />} />
-              </Routes>
+              <Route path = "/search" element={<SearchResults />} />
+            </Routes>
             <ToastContainer />
           </div>
         </div>
