@@ -14,13 +14,16 @@ const SignUp = ({ onToggle }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userType, setUserType] = useState("Customer");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [skills, setSkills] = useState("");
+  const [skills, setSkills] = useState([]); // Initialize skills as an array
   const [businessDescription, setBusinessDescription] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(null);
   const navigate = useNavigate();
 
   async function signUp(email, password) {
     const isProfessional = (userType) => userType === "Professional";
+    
+
+    
     
     try {
       await setDoc(doc(db, "users", email), {
@@ -85,7 +88,7 @@ const SignUp = ({ onToggle }) => {
         password: password,
         isProfessional: userType === "Professional",
         phoneNumber: userType === "Professional" ? phoneNumber : null,
-        skills: userType === "Professional" ? skills.split(',').map(skill => skill.trim()) : [],
+        skills: userType === "Professional" ? skills: [],
         businessDescription: userType === "Professional" ? businessDescription : null,
         profilePhoto: profilePhoto ? await uploadProfilePhoto(profilePhoto) : null,
       });
@@ -119,6 +122,14 @@ const SignUp = ({ onToggle }) => {
       console.error("Error uploading profile photo:", error.message);
       return null;
     }
+  };
+
+  const predefinedSkills = ["Plumbing", "HVAC", "Roofing", "Gardening"]; // List of skills
+
+  // Update skills based on selected options
+  const handleSelectChange = (e) => {
+    const selectedOptions = Array.from(e.target.selectedOptions).map((option) => option.value);
+    setSkills(selectedOptions);
   };
 
   return (
@@ -208,15 +219,26 @@ const SignUp = ({ onToggle }) => {
                   </div>
                   <div className="mb-3">
                     <label htmlFor="skills" className="form-label">Skills</label>
-                    <input
-                      type="text"
-                      className="form-control"
+                    <select
                       id="skills"
+                      className="form-control"
                       value={skills}
-                      onChange={(e) => setSkills(e.target.value)}
-                      placeholder="Separate skills with commas"
+                      onChange={handleSelectChange}
+                      multiple
                       required
-                    />
+                    >
+                      {predefinedSkills.map((skill) => (
+                        <option key={skill} value={skill}>
+                          {skill}
+                        </option>
+                      ))}
+                    </select>
+                    <small className="form-text text-muted">
+                      Hold down Ctrl (Windows) or Command (Mac) to select multiple options.
+                    </small>
+                    <div className="mt-2">
+                      <strong>Selected Skills:</strong> {skills.join(", ")}
+                    </div>
                   </div>
                   <div className="mb-3">
                     <label htmlFor="businessDescription" className="form-label">Business Description</label>

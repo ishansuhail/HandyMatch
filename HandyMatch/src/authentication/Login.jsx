@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import GoogleButton from "react-google-button";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Link } from 'react-router-dom';
-import { auth } from './firebase'; // Adjust the path as necessary
+import { auth, firestore } from './firebase'; // Adjust the path as necessary
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -15,8 +16,27 @@ function Login() {
 
     const handleLoginClick = async () => {
         try {
+
+            let isProfessional = null ;
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            navigate('/'); // success
+            // Finding if the user is a professional or not
+            const collectionToSearch = "Users";
+            const colRef = collection(firestore, collectionToSearch);
+            const q = query(colRef, where("email", "==", email)); // Query where email matches
+            const querySnapshot = await getDocs(q)
+
+            if (!querySnapshot.empty) {
+                
+                querySnapshot.forEach((doc) => {
+                    console.log("Document ID:", doc.id); // Document ID
+                    console.log("Document Data:", doc.data()); // Document Data
+                    isProfessional = doc.data().isProfessional;
+                    
+                  }); 
+
+            }
+
+            navigate(isProfessional === false ? '/home' : '/professional-dashboard'); // success
         } catch (error) {
             setError(error.message);
         }
