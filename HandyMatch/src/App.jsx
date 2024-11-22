@@ -15,6 +15,8 @@ import SearchResults from './resultsPage/SearchResults.jsx';
 import HomeownerProfile from './HomeownerProfile/HomeownerProfile';
 import OrderHistory from './OrderHistory/OrderHistory';
 import MyReviews from './MyReviews/MyReviews';
+import ProfessionalReviews from './ProfessionalReviews/ProfessionalReviews';
+
 
 function App() {
   const [user, setUser] = useState();
@@ -38,6 +40,7 @@ function App() {
               <Route path="/homeowner-profile" element={<HomeownerProfile />} />
               <Route path="/order-history" element={<OrderHistory />} />
               <Route path="/my-reviews" element={<MyReviews />} /> 
+              <Route path="/professional-reviews" element={<ProfessionalReviews />} />
               <Route path = "/search" element={<SearchResults />} />
             </Routes>
             <ToastContainer />
