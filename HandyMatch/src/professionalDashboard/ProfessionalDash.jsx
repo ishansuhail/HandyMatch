@@ -1,9 +1,8 @@
-// src/pages/ProfessionalDash.jsx
 import React from 'react';
 import Sidebar from '../components/Sidebar';
 import ClientRequestCard from '../components/ClientRequestCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaUserCircle, FaBell, FaCog } from 'react-icons/fa';
+import { FaBell } from 'react-icons/fa';
 import './ProfessionalDash.css';
 
 const requests = [
@@ -21,22 +20,17 @@ const requests = [
 
 const ProfessionalDash = () => {
   const sortedRequests = [...requests].sort((a, b) => b.isEmergency - a.isEmergency);
+
   return (
     <div className="d-flex">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
-      <div className="flex-grow-1">
+      <div className="flex-grow-1" style={{ maxWidth: '1200px', marginLeft: 'auto', marginRight: 'auto' }}> {/* Reduce main content width */}
         {/* Top Header with Icons */}
-        <div className="d-flex justify-content-between align-items-center px-4 py-2 bg-light border-bottom">
-          <div className="d-flex align-items-center">
-            <FaUserCircle size={24} className="me-2" />
-          </div>
-          <div className="d-flex align-items-center">
-            <FaBell size={20} className="me-3" />
-            <FaCog size={20} />
-          </div>
+        <div className="d-flex justify-content-end align-items-center px-4 py-2 bg-light border-bottom">
+          <FaBell size={20} className="me-3" />
         </div>
 
         {/* Title Bar */}
@@ -45,11 +39,11 @@ const ProfessionalDash = () => {
         </div>
 
         {/* Client Requests Section */}
-        <div className="p-4" style={{ paddingRight: '2rem' }}>
+        <div className="p-4">
           <h4 className="mb-4">Client Requests ({sortedRequests.length})</h4>
-          <div className="row">
+          <div className="row row-cols-2 g-4"> {/* Two cards per row */}
             {sortedRequests.map((request, index) => (
-              <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4" key={index}>
+              <div className="col" key={index}>
                 <ClientRequestCard {...request} />
               </div>
             ))}

@@ -1,8 +1,7 @@
-// src/components/Sidebar.jsx
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaHome, FaBriefcase, FaStar, FaCog, FaBars } from 'react-icons/fa';
+import { FaHome, FaBriefcase, FaStar, FaUser, FaBars } from 'react-icons/fa';
 
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false); // Start with expanded sidebar
@@ -18,11 +17,12 @@ function Sidebar() {
 
   return (
     <div
-      className={`d-flex flex-column p-4 vh-100`}
+      className={`d-flex flex-column p-4`}
       style={{
-        width: collapsed ? '120px' : '300px', // Wider sidebar when expanded
+        minHeight: '100vh', // Extend background to match the full height of the page
+        width: collapsed ? '90px' : '300px', // Increase sidebar width
         backgroundColor: '#f4f4f4', // Lighter grey background
-        transition: 'width 0.3s',
+        transition: 'width 0.25s',
       }}
     >
       <button
@@ -55,11 +55,11 @@ function Sidebar() {
           {!collapsed && <span>Reviews</span>}
         </a>
         <a
-          href="/settings"
-          className={`nav-link text-dark d-flex align-items-center mb-3 ${isActive(['/settings'])}`}
+          href="/my-account"
+          className={`nav-link text-dark d-flex align-items-center mb-3 ${isActive(['/my-account'])}`}
         >
-          <FaCog className="me-2" />
-          {!collapsed && <span>Settings</span>}
+          <FaUser className="me-2" />
+          {!collapsed && <span>My Account</span>}
         </a>
       </nav>
     </div>

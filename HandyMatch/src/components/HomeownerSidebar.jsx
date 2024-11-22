@@ -19,9 +19,9 @@ function HomeownerSidebar() {
     <div
       className={`d-flex flex-column p-4 vh-100`}
       style={{
-        width: collapsed ? '120px' : '300px', // Wider sidebar
+        width: collapsed ? '90px' : '300px', // Wider sidebar
         backgroundColor: '#f4f4f4', // Lighter grey background
-        transition: 'width 0.3s',
+        transition: 'width 0.25s',
       }}
     >
       <button
