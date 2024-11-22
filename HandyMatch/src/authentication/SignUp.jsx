@@ -50,7 +50,6 @@ const SignUp = ({ onToggle }) => {
         email: user.email,
         firstName,
         lastName,
-        password: password,
         isProfessional: userType === "Professional",
         phoneNumber: userType === "Professional" ? phoneNumber : null,
         skills: userType === "Professional" ? skills.split(',').map(skill => skill.trim()) : [],
