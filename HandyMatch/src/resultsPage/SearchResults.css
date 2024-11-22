@@ -1,0 +1,39 @@
+/* Header container */
+.header-container {
+    display: flex;
+    justify-content: space-between; /* Aligns title to the left and button to the right */
+    align-items: flex-start; /* Aligns items to the top */
+    padding: 10px 20px; /* Adjusted padding for better positioning */
+    background-color: #f9f9f9; /* Light grey background */
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+    position: relative; /* Allows absolute positioning for the button */
+}
+
+/* Title styling */
+.header-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+    text-align: left; /* Ensure the text is left-aligned */
+    align-self: flex-start; /* Ensures text aligns with the top of the container */
+}
+
+/* My Account button */
+.my-account-button {
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    position: absolute; /* Absolute positioning for precise placement */
+    top: 5px; /* Move the button closer to the top */
+    right: 20px; /* Maintain spacing from the right */
+}
+
+.my-account-button:hover {
+    background-color: #555;
+}

@@ -13,6 +13,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { auth } from "./authentication/firebase.js";
 import SearchResults from './resultsPage/SearchResults.jsx';
 import HomeownerProfile from './HomeownerProfile/HomeownerProfile';
+import OrderHistory from './OrderHistory/OrderHistory';
+import MyReviews from './MyReviews/MyReviews';
 
 function App() {
   const [user, setUser] = useState();
@@ -34,6 +36,8 @@ function App() {
               <Route path = "/home" element={<HomePage />} />
               <Route path="/professional-profile" element={<ProfessionalProfile />} />
               <Route path="/homeowner-profile" element={<HomeownerProfile />} />
+              <Route path="/order-history" element={<OrderHistory />} />
+              <Route path="/my-reviews" element={<MyReviews />} /> 
               <Route path = "/search" element={<SearchResults />} />
             </Routes>
             <ToastContainer />

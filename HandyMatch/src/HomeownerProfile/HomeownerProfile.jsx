@@ -1,10 +1,18 @@
-// src/HomeownerProfile/HomeownerProfile.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import { FaEdit } from 'react-icons/fa';
 import HomeownerSidebar from '../components/HomeownerSidebar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './HomeownerProfile.css';
 
 const HomeownerProfile = () => {
+  const [firstName, setFirstName] = useState('Jane');
+  const [lastName, setLastName] = useState('Doe');
+  const [email, setEmail] = useState('jane.doe@example.com');
+
+  const handleChange = (setter) => (event) => {
+    setter(event.target.value);
+  };
+
   return (
     <div className="d-flex">
       {/* Sidebar */}
@@ -14,17 +22,48 @@ const HomeownerProfile = () => {
       <div className="flex-grow-1">
         {/* Header */}
         <div className="profile-header">
-          <h1 className="profile-name">Jane Doe</h1>
-          <p className="profile-email">jane.doe@example.com</p>
+          <h1 className="profile-name">{firstName} {lastName}</h1>
+          <p className="profile-email">{email}</p>
         </div>
 
-        {/* Links Section */}
-        <div className="profile-links">
-          <h3>My Account</h3>
-          <ul>
-            <li><a href="/order-history">Order History</a></li>
-            <li><a href="/my-reviews">My Reviews</a></li>
-          </ul>
+        {/* Account Information Section */}
+        <div className="profile-form">
+          <div className="form-group">
+            <div className="label">First Name</div>
+            <div className="input-group">
+              <input
+                type="text"
+                className="input-field"
+                value={firstName}
+                onChange={handleChange(setFirstName)} // Allow editing
+              />
+              <FaEdit className="edit-icon" />
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="label">Last Name</div>
+            <div className="input-group">
+              <input
+                type="text"
+                className="input-field"
+                value={lastName}
+                onChange={handleChange(setLastName)} // Allow editing
+              />
+              <FaEdit className="edit-icon" />
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="label">Email</div>
+            <div className="input-group">
+              <input
+                type="email"
+                className="input-field"
+                value={email}
+                onChange={handleChange(setEmail)} // Allow editing
+              />
+              <FaEdit className="edit-icon" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

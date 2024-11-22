@@ -1,0 +1,41 @@
+/* Header container for the user's name and email */
+.order-history-header {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between; /* Name on the left, email on the right */
+    align-items: center; /* Center items vertically */
+}
+
+.profile-name {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.profile-email {
+    font-size: 1em;
+    color: #666;
+    margin: 0;
+    text-align: right;
+}
+
+/* Main content container for the reviews */
+.reviews-content {
+    padding: 20px;
+}
+
+.reviews-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between each review card */
+}

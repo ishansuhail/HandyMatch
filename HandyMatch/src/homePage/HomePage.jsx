@@ -10,7 +10,6 @@ const HomePage = () => {
 
   const handleSearch = () => {
     if (task && zipCode) {
-      // Navigate to another page with query parameters
       navigate(`/search?task=${encodeURIComponent(task)}&zipCode=${encodeURIComponent(zipCode)}`);
     } else {
       alert("Please fill in both fields.");
@@ -22,82 +21,83 @@ const HomePage = () => {
   };
 
   return (
-    <Container fluid className="w-100 mt-1">
-      {/* Header */}
-      <div className="header-container">
-        <h1 className="header-title">Handy Match</h1>
-        <p className="header-subtitle">Book the Best, Fix the Rest</p>
-        <Button 
-          variant="dark" 
-          onClick={handleAccountClick} 
-          className="my-account-button"
-        >
-          My Account
-        </Button>
-      </div>
+    <div className="page-container">
+      <Container fluid className="w-100 mt-1">
+        {/* Header */}
+        <div className="header-container">
+          <h1 className="header-title">Handy Match</h1>
+          <p className="header-subtitle">Book the Best, Fix the Rest</p>
+          <Button 
+            variant="dark" 
+            onClick={handleAccountClick} 
+            className="my-account-button"
+          >
+            My Account
+          </Button>
+        </div>
 
-      {/* Search Section */}
-      <div style={{ backgroundColor: '#d3d3d3' }} className="pb-5 pt-4">
-        <Row className="justify-content-center">
-          <Col xs={12} md={4} className="mb-2">
-            <Form.Select
-              value={task}
-              onChange={(e) => setTask(e.target.value)}
-              aria-label="Select a task"
-            >
-              <option value="">Select a Task</option>
-              <option value="plumbing">Plumbing</option>
-              <option value="hvac">HVAC</option>
-              <option value="roofing">Roofing</option>
-              <option value="gardening">Gardening</option>
-            </Form.Select>
-          </Col>
-          <Col xs={12} md={4} className="mb-2">
-            <Form.Control
-              type="text"
-              placeholder="My ZipCode"
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-            />
-          </Col>
-          <Col xs="auto" className="d-flex align-items-center">
-            <Button variant="dark" onClick={handleSearch}>
-              Search
-            </Button>
-          </Col>
-        </Row>
-      </div>
+        {/* Search Section */}
+        <div style={{ backgroundColor: '#d3d3d3' }} className="section-padding">
+          <Row className="justify-content-center">
+            <Col xs={12} md={4} className="mb-2">
+              <Form.Select
+                value={task}
+                onChange={(e) => setTask(e.target.value)}
+                aria-label="Select a task"
+              >
+                <option value="">Select a Task</option>
+                <option value="plumbing">Plumbing</option>
+                <option value="hvac">HVAC</option>
+                <option value="roofing">Roofing</option>
+                <option value="gardening">Gardening</option>
+              </Form.Select>
+            </Col>
+            <Col xs={12} md={4} className="mb-2">
+              <Form.Control
+                type="text"
+                placeholder="My ZipCode"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+              />
+            </Col>
+            <Col xs="auto" className="d-flex align-items-center">
+              <Button variant="dark" onClick={handleSearch}>
+                Search
+              </Button>
+            </Col>
+          </Row>
+        </div>
 
-      {/* Testimonials Section */}
-      <h3 className="text-center mt-3 mb-4">Client Testimonials</h3>
-      <Row className="gy-4">
-        {testimonials.map((testimonial, index) => (
-          <Col key={index} xs={12} md={6} lg={4}>
-            <Card className="h-100 shadow-sm">
-              <Card.Body>
-                <Card.Text className="fst-italic">"{testimonial.quote}"</Card.Text>
-                <div className="d-flex align-items-center mt-3">
-                  <img
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    className="rounded-circle me-2"
-                    style={{ width: '40px', height: '40px' }}
-                  />
-                  <div>
-                    <strong>{testimonial.name}</strong>
-                    <div className="text-muted">{testimonial.date}</div>
+        {/* Testimonials Section */}
+        <h3 className="testimonials-heading">Client Testimonials</h3>
+        <Row className="testimonial-container gy-4">
+          {testimonials.map((testimonial, index) => (
+            <Col key={index} xs={12} md={6} lg={4}>
+              <Card className="h-100 shadow-sm">
+                <Card.Body>
+                  <Card.Text className="fst-italic">"{testimonial.quote}"</Card.Text>
+                  <div className="d-flex align-items-center mt-3">
+                    <img
+                      src={testimonial.avatar}
+                      alt={testimonial.name}
+                      className="rounded-circle me-2"
+                      style={{ width: '40px', height: '40px' }}
+                    />
+                    <div>
+                      <strong>{testimonial.name}</strong>
+                      <div className="text-muted">{testimonial.date}</div>
+                    </div>
                   </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+    </div>
   );
 };
 
-// Testimonial Data
 const testimonials = [
   {
     quote: "I was able to book an appointment to fix my sink the next day thanks to HomePage!",

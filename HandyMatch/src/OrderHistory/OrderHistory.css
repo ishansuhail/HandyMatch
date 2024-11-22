@@ -1,0 +1,41 @@
+/* src/OrderHistory/OrderHistory.css */
+
+.order-history-header {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between; /* Push content to opposite ends */
+    align-items: center; /* Vertically align items */
+}
+
+.profile-name {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin: 0; /* Remove unnecessary margin */
+}
+
+.profile-email {
+    font-size: 1em;
+    color: #666;
+    margin: 0; /* Remove unnecessary margin */
+    text-align: right;
+}
+
+.order-history-content {
+    padding: 20px;
+}
+
+.order-history-title {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.order-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

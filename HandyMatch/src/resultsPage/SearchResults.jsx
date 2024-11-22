@@ -1,25 +1,35 @@
 import React from 'react';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ProfessionalCard from '../components/ProfessionalCard';
+import './SearchResults.css'; // Ensure this is properly imported
 
 const SearchResults = () => {
-
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Parse query parameters
   const queryParams = new URLSearchParams(location.search);
   const task = queryParams.get('task'); // Retrieve the value of 'task'
   const zipCode = queryParams.get('zipCode'); // Retrieve the value of 'zipCode'
 
-  console.log(location.search)
-  console.log(task, zipCode)
-
+  const handleAccountClick = () => {
+    navigate('/homeowner-profile'); // Navigate to the user account page
+  };
 
   return (
-    <Container className="mt-4">
-      {/* Title Section */}
-      <h2 className="mb-3">HandyMatches for {task} near {zipCode}</h2>
+    <Container fluid className="mt-4">
+      {/* Header Section */}
+      <div className="header-container">
+        <h2 className="header-title">HandyMatches for {task} near {zipCode}</h2>
+        <Button 
+          variant="dark" 
+          onClick={handleAccountClick} 
+          className="my-account-button"
+        >
+          My Account
+        </Button>
+      </div>
 
       {/* Search Bar */}
       <Row className="mb-4">
