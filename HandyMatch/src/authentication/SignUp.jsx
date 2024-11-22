@@ -6,6 +6,8 @@ import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } f
 import { doc, setDoc } from "firebase/firestore";
 import GoogleButton from "react-google-button";
 
+
+
 const SignUp = ({ onToggle }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -14,7 +16,9 @@ const SignUp = ({ onToggle }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userType, setUserType] = useState("Customer");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [zipcode, setZipCode] = useState("");
   const [skills, setSkills] = useState([]); // Initialize skills as an array
+  const [rate, setRate] = useState(0); 
   const [businessDescription, setBusinessDescription] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(null);
   const navigate = useNavigate();
@@ -26,7 +30,7 @@ const SignUp = ({ onToggle }) => {
     
     
     try {
-      await setDoc(doc(db, "users", email), {
+      await setDoc(doc(firestore, "users", email), {
         isProfessional: isProfessional(userType),
         createdAt: new Date(),
       });
@@ -79,6 +83,14 @@ const SignUp = ({ onToggle }) => {
       // Create a document ID by concatenating first name, last name, and UID with underscores
       const docId = `${firstName}_${lastName}_${user.uid}`;
 
+      if (userType != "Customer"){
+        const zipPattern = /^\d{5}(-\d{4})?$/; // Regex for U.S. ZIP code
+        if (!zipPattern.test(zipcode)) {
+          alert("Invalid ZIP code. Please enter a valid U.S. ZIP code (e.g., 12345 or 12345-6789).");
+        }
+        setZipCode(""); 
+      }
+
       // Create a Firestore document with firstName + "_" + lastName + "_" + UID as the document ID
       const userDoc = doc(firestore, "Users", docId);
       await setDoc(userDoc, {
@@ -89,8 +101,10 @@ const SignUp = ({ onToggle }) => {
         isProfessional: userType === "Professional",
         phoneNumber: userType === "Professional" ? phoneNumber : null,
         skills: userType === "Professional" ? skills: [],
+        rate: rate,
         businessDescription: userType === "Professional" ? businessDescription : null,
         profilePhoto: profilePhoto ? await uploadProfilePhoto(profilePhoto) : null,
+        zipcode: zipcode
       });
 
       navigate(userType === "Customer" ? '/home' : '/professional-dashboard');
@@ -204,6 +218,7 @@ const SignUp = ({ onToggle }) => {
                   <option value="Professional">Professional</option>
                 </select>
               </div>
+
               {userType === "Professional" && (
                 <>
                   <div className="mb-3">
@@ -214,6 +229,16 @@ const SignUp = ({ onToggle }) => {
                       id="phoneNumber"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="zipcode" className="form-label">Zipcode</label>
+                    <input
+                      className="form-control"
+                      id="zipcode"
+                      value={zipcode}
+                      onChange={(e) => setZipCode(e.target.value)}
                       required
                     />
                   </div>
@@ -238,6 +263,20 @@ const SignUp = ({ onToggle }) => {
                     </small>
                     <div className="mt-2">
                       <strong>Selected Skills:</strong> {skills.join(", ")}
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="rate" className="form-label">Hourly Rate (USD)</label>
+                    <div className="input-group">
+                      <span className="input-group-text">$</span> 
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="rate"
+                        value={rate}
+                        onChange={(e) => setRate(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
                   <div className="mb-3">
