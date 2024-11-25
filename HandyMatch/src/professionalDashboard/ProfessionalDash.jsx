@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import ClientRequestCard from '../components/ClientRequestCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaBell } from 'react-icons/fa';
+import { auth, firestore } from '../authentication/firebase';
+import { collection, getDocs } from 'firebase/firestore'; // Import Firestore functions
 import './ProfessionalDash.css';
 
 const requests = [
@@ -19,6 +21,29 @@ const requests = [
 ];
 
 const ProfessionalDash = () => {
+  const [professionalName, setProfessionalName] = useState('');
+
+  useEffect(() => {
+    const fetchProfessionalName = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const uid = user.uid;
+        const usersCollection = collection(firestore, 'Users');
+        const usersSnapshot = await getDocs(usersCollection);
+        usersSnapshot.forEach(doc => {
+          if (doc.id.endsWith(`_${uid}`)) {
+            const data = doc.data();
+            setProfessionalName(`${data.firstName} ${data.lastName}`);
+          }
+        });
+      } else {
+        console.log('No user is signed in!');
+      }
+    };
+
+    fetchProfessionalName();
+  }, []);
+
   const sortedRequests = [...requests].sort((a, b) => b.isEmergency - a.isEmergency);
 
   return (
@@ -35,7 +60,7 @@ const ProfessionalDash = () => {
 
         {/* Title Bar */}
         <div className="bg-dark text-white py-3 px-4">
-          <h1 className="mb-0">Bob The Builder</h1>
+          <h1 className="mb-0">{professionalName}</h1>
         </div>
 
         {/* Client Requests Section */}
