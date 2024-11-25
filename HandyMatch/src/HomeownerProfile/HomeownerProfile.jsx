@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import HomeownerSidebar from '../components/HomeownerSidebar';
+import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './HomeownerProfile.css';
 
 const HomeownerProfile = () => {
-  const [firstName, setFirstName] = useState('Jane');
-  const [lastName, setLastName] = useState('Doe');
-  const [email, setEmail] = useState('jane.doe@example.com');
+
+  const queryParams = new URLSearchParams(location.search);
+  const _email = queryParams.get("email"); // Retrieve the value of 'email'
+  const _fname = queryParams.get("fname"); // Retrieve the value of 'firstname' and 'lastname'
+  const _lname = queryParams.get("lname");
+
+
+  const [firstName, setFirstName] = useState(_fname);
+  const [lastName, setLastName] = useState(_lname);
+  const [email, setEmail] = useState(decodeURIComponent(_email));
+
+
 
   const handleChange = (setter) => (event) => {
     setter(event.target.value);

@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Button, Card, Form } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './HomePage.css'; // Import the CSS file
 
 const HomePage = () => {
   const [task, setTask] = useState('');
   const [zipCode, setZipCode] = useState('');
+  const location = useLocation();
+
+  const userData = location.state || {};
+
+
+
   const navigate = useNavigate();
 
   const handleSearch = () => {
@@ -17,7 +23,12 @@ const HomePage = () => {
   };
 
   const handleAccountClick = () => {
-    navigate('/homeowner-profile'); // Navigate to homeowner profile
+    let email = userData.data.email
+    let fname = userData.data.firstName
+    let lname = userData.data.lastName
+
+    
+    navigate(`/homeowner-profile?email=${encodeURIComponent(email)}&fname=${encodeURIComponent(fname)}&lname=${encodeURIComponent(lname)}`); // Navigate to homeowner profile
   };
 
   return (

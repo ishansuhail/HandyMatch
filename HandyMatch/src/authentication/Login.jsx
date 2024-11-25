@@ -18,6 +18,10 @@ function Login() {
         try {
 
             let isProfessional = null ;
+            let data = null;
+            // let fname = null;
+
+
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             // Finding if the user is a professional or not
             const collectionToSearch = "Users";
@@ -31,12 +35,20 @@ function Login() {
                     console.log("Document ID:", doc.id); // Document ID
                     console.log("Document Data:", doc.data()); // Document Data
                     isProfessional = doc.data().isProfessional;
-                    
+                    data = doc.data();
+                    // email = doc.data().email;
+                    // fname = doc.data().firstName;
+
                   }); 
 
             }
 
-            navigate(isProfessional === false ? '/home' : '/professional-dashboard'); // success
+            navigate(isProfessional === false ? '/home' : '/professional-dashboard',
+                {
+                  state: {
+                    data: data
+                  },
+                }); // navigate based on if user is professional or not
         } catch (error) {
             setError(error.message);
         }
