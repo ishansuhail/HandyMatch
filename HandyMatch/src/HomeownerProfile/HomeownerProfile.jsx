@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import HomeownerSidebar from '../components/HomeownerSidebar';
+import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './HomeownerProfile.css';
 
 const HomeownerProfile = () => {
-  const [firstName, setFirstName] = useState('Jane');
-  const [lastName, setLastName] = useState('Doe');
-  const [email, setEmail] = useState('jane.doe@example.com');
+
+  
+  const userData = JSON.parse(localStorage.getItem('user'));
+  
+  const _email = userData.email // Retrieve the value of 'email'
+  const _fname = userData.firstName; // Retrieve the value of 'firstname' and 'lastname'
+  const _lname = userData.lastName;
+
+
+  const [firstName, setFirstName] = useState(_fname);
+  const [lastName, setLastName] = useState(_lname);
+  const [email, setEmail] = useState(decodeURIComponent(_email));
+
+
 
   const handleChange = (setter) => (event) => {
     setter(event.target.value);
@@ -16,7 +28,7 @@ const HomeownerProfile = () => {
   return (
     <div className="d-flex">
       {/* Sidebar */}
-      <HomeownerSidebar />
+      <HomeownerSidebar fname={firstName} lname={lastName} email = {email} />
 
       {/* Main Content */}
       <div className="flex-grow-1">

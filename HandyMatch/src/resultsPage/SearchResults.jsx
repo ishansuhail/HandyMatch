@@ -128,7 +128,21 @@ const SearchResults = () => {
   }, [sort, userCoordinates]); // Removed professionals from dependencies
 
   const handleAccountClick = () => {
-    navigate("/homeowner-profile");
+    navigate("/homeowner-profile"); // Navigate to the user account page
+  };
+
+  const handleCardClick = (professional) => {
+    console.log(professional.id)
+    navigate("/booking", {
+      state: { fname: professional.fname, lname: professional.lname, price: professional.price, id: professional.id },
+    });
+  };
+
+  const handleCardClick = (professional) => {
+    console.log(professional.id)
+    navigate("/booking", {
+      state: { fname: professional.fname, lname: professional.lname, price: professional.price, id: professional.id },
+    });
   };
 
   return (

@@ -16,6 +16,7 @@ import HomeownerProfile from './HomeownerProfile/HomeownerProfile';
 import OrderHistory from './OrderHistory/OrderHistory';
 import MyReviews from './MyReviews/MyReviews';
 import ProfessionalReviews from './ProfessionalReviews/ProfessionalReviews';
+import Booking from './bookingPage/Booking.jsx';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
               <Route path="/my-reviews" element={<MyReviews />} /> 
               <Route path="/professional-reviews" element={<ProfessionalReviews />} />
               <Route path = "/search" element={<SearchResults />} />
+              <Route path = "/booking" element={<Booking />} />
             </Routes>
             <ToastContainer />
           </div>

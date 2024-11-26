@@ -4,24 +4,24 @@ import ClientRequestCard from '../components/ClientRequestCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaBell } from 'react-icons/fa';
 import { auth, firestore } from '../authentication/firebase';
-import { collection, getDocs } from 'firebase/firestore'; // Import Firestore functions
+import { collection, getDocs, getDoc, doc } from 'firebase/firestore'; // Import Firestore functions
 import './ProfessionalDash.css';
 
-const requests = [
-  { name: "John D.", role: "Homeowner", dateRequested: "11/1/24", description: "I'd like someone to landscape my garden", isEmergency: false },
-  { name: "Amber T.", role: "Homeowner", dateRequested: "10/29/24", description: "I'd like a patio to be installed around my new pool", isEmergency: false },
-  { name: "Michael B.", role: "Homeowner", dateRequested: "10/25/24", description: "Need a new roof for my house", isEmergency: true },
-  { name: "Sarah W.", role: "Homeowner", dateRequested: "10/20/24", description: "Looking for someone to paint my living room", isEmergency: false },
-  { name: "David K.", role: "Homeowner", dateRequested: "10/18/24", description: "Need plumbing work in the kitchen", isEmergency: false },
-  { name: "Emma R.", role: "Homeowner", dateRequested: "10/15/24", description: "Want to install new windows in my house", isEmergency: true },
-  { name: "Olivia P.", role: "Homeowner", dateRequested: "10/10/24", description: "Looking for someone to build a deck in my backyard", isEmergency: false },
-  { name: "Liam N.", role: "Homeowner", dateRequested: "10/05/24", description: "Need electrical work done in the basement", isEmergency: false },
-  { name: "Sophia M.", role: "Homeowner", dateRequested: "10/01/24", description: "Want to remodel my bathroom", isEmergency: false },
-  { name: "James L.", role: "Homeowner", dateRequested: "09/28/24", description: "Need someone to install a new fence", isEmergency: false },
-];
 
 const ProfessionalDash = () => {
   const [professionalName, setProfessionalName] = useState('');
+  const [requests, setRequests] = useState([
+    { name: "John D.", role: "Homeowner", dateRequested: "11/1/24" , isEmergency: false },
+    { name: "Amber T.", role: "Homeowner", dateRequested: "10/29/24", isEmergency: false },
+    { name: "Michael B.", role: "Homeowner", dateRequested: "10/25/24",  isEmergency: true },
+    { name: "Sarah W.", role: "Homeowner", dateRequested: "10/20/24",  isEmergency: false },
+    { name: "David K.", role: "Homeowner", dateRequested: "10/18/24",  isEmergency: false },
+    { name: "Emma R.", role: "Homeowner", dateRequested: "10/15/24",  isEmergency: true },
+    { name: "Olivia P.", role: "Homeowner", dateRequested: "10/10/24",  isEmergency: false },
+    { name: "Liam N.", role: "Homeowner", dateRequested: "10/05/24",  isEmergency: false },
+    { name: "Sophia M.", role: "Homeowner", dateRequested: "10/01/24", isEmergency: false },
+    { name: "James L.", role: "Homeowner", dateRequested: "09/28/24",  isEmergency: false },
+  ]);
 
   useEffect(() => {
     const fetchProfessionalName = async () => {
@@ -30,11 +30,52 @@ const ProfessionalDash = () => {
         const uid = user.uid;
         const usersCollection = collection(firestore, 'Users');
         const usersSnapshot = await getDocs(usersCollection);
-        usersSnapshot.forEach(doc => {
-          if (doc.id.endsWith(`_${uid}`)) {
-            const data = doc.data();
+
+
+        usersSnapshot.forEach(async _doc => {
+          if (_doc.id.endsWith(`_${uid}`)) {
+            const data = _doc.data();
+            console.log(_doc.id);
+            const docRef = doc(firestore, "Jobs", _doc.id);
+
+            console.log(docRef);
+
+            const docSnap = await getDoc(docRef);
+
+            
+            if (docSnap.exists()) {
+              // Document exists, log and save the data
+              const documentData = docSnap.data();
+              console.log("Document data", docSnap.data());
+
+              if (Array.isArray(documentData.jobs)) {
+                const extractedData = documentData.jobs.map((job) => ({
+                  name: job.customer,
+                  dateRequested: job.date.split("T")[0],
+                  isEmergency: job.isEmergency,
+                }));
+            
+                console.log("Extracted Data:", extractedData);
+
+                setRequests(prevRequests => [...prevRequests, ...extractedData]);
+            
+                // Example: Save to state if using React
+                // setJobs(extractedData);
+              } else {
+                console.log("No jobs field or it is not an array.");
+              }
+              
+            }
+            else{
+              console.log("No such document!");
+              return; // Return early if the document doesn't exist
+            }
             setProfessionalName(`${data.firstName} ${data.lastName}`);
+
+
           }
+        
+        
         });
       } else {
         console.log('No user is signed in!');

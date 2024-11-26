@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { doc, updateDoc, arrayUnion, setDoc } from 'firebase/firestore';
+import { firestore } from '../authentication/firebase';
 
 const OrderHistoryCard = ({ service, professional, date, status }) => {
   const [isReviewing, setIsReviewing] = useState(false);
@@ -6,12 +8,49 @@ const OrderHistoryCard = ({ service, professional, date, status }) => {
   const [reviewText, setReviewText] = useState('');
   const [photo, setPhoto] = useState(null);
 
-  const handleReviewSubmit = () => {
+
+  const userData = JSON.parse(localStorage.getItem('user'));
+
+  const email = userData.email // Retrieve the value of 'email'
+
+
+
+  const handleReviewSubmit = async () => {
     alert('Review submitted successfully!');
+
+    const newReview = {
+      name: professional,
+      rating: stars,
+      review: reviewText
+    }
+
+    try {
+      // Reference to the document
+      const docRef = doc(firestore, "UserReviews", email);
+  
+      // Add the new review to the "reviews" array
+      await updateDoc(docRef, {
+        reviews: arrayUnion(newReview), // Add the new review to the array
+      });
+  
+      console.log("Review added successfully!");
+    } catch (error) {
+      if (error.code === "not-found") {
+        // If the document doesn't exist, create it with the new review
+        await setDoc(docRef, { reviews: [newReview] });
+        console.log("Document created and review added!");
+      } else {
+        console.error("Error adding review:", error);
+      }
+    }
+
+    console.log(stars, professional)
     setIsReviewing(false);
     setStars(0);
     setReviewText('');
     setPhoto(null);
+
+
   };
 
   return (
