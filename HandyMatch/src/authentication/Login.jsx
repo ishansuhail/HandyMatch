@@ -39,16 +39,16 @@ function Login() {
                     // email = doc.data().email;
                     // fname = doc.data().firstName;
 
+                    localStorage.setItem("user", JSON.stringify(data)); // Save user data to local storage
+
+
                   }); 
 
             }
+           
+            
 
-            navigate(isProfessional === false ? '/home' : '/professional-dashboard',
-                {
-                  state: {
-                    data: data
-                  },
-                }); // navigate based on if user is professional or not
+            navigate(isProfessional === false ? '/home' : '/professional-dashboard'); // navigate based on if user is professional or not
         } catch (error) {
             setError(error.message);
         }
@@ -63,6 +63,9 @@ function Login() {
             setError(error.message);
         }
     }
+
+
+    
 
     return (
         <div className="d-flex align-items-center justify-content-center vh-100 bg-white">

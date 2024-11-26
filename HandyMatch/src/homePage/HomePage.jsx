@@ -8,8 +8,7 @@ const HomePage = () => {
   const [zipCode, setZipCode] = useState('');
   const location = useLocation();
 
-  const userData = location.state || {};
-
+  const userData = localStorage.getItem('user');
 
 
   const navigate = useNavigate();
@@ -23,12 +22,18 @@ const HomePage = () => {
   };
 
   const handleAccountClick = () => {
-    let email = userData.data.email
-    let fname = userData.data.firstName
-    let lname = userData.data.lastName
+    let email = userData.email
+    let fname = userData.firstName
+    let lname = userData.lastName
 
     
-    navigate(`/homeowner-profile?email=${encodeURIComponent(email)}&fname=${encodeURIComponent(fname)}&lname=${encodeURIComponent(lname)}`); // Navigate to homeowner profile
+    navigate('/homeowner-profile', {
+      state: {
+        email: email,
+        fname: fname,
+        lname: lname,
+      },
+    });
   };
 
   return (

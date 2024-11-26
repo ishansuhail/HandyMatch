@@ -7,10 +7,12 @@ import './HomeownerProfile.css';
 
 const HomeownerProfile = () => {
 
-  const queryParams = new URLSearchParams(location.search);
-  const _email = queryParams.get("email"); // Retrieve the value of 'email'
-  const _fname = queryParams.get("fname"); // Retrieve the value of 'firstname' and 'lastname'
-  const _lname = queryParams.get("lname");
+  
+  const userData = JSON.parse(localStorage.getItem('user'));
+  
+  const _email = userData.email // Retrieve the value of 'email'
+  const _fname = userData.firstName; // Retrieve the value of 'firstname' and 'lastname'
+  const _lname = userData.lastName;
 
 
   const [firstName, setFirstName] = useState(_fname);
@@ -26,7 +28,7 @@ const HomeownerProfile = () => {
   return (
     <div className="d-flex">
       {/* Sidebar */}
-      <HomeownerSidebar />
+      <HomeownerSidebar fname={firstName} lname={lastName} email = {email} />
 
       {/* Main Content */}
       <div className="flex-grow-1">
