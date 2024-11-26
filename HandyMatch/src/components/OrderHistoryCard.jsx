@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { doc, updateDoc, arrayUnion, setDoc } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { firestore } from '../authentication/firebase';
 
 const OrderHistoryCard = ({ service, professional, date, status }) => {
@@ -16,42 +16,78 @@ const OrderHistoryCard = ({ service, professional, date, status }) => {
 
 
   const handleReviewSubmit = async () => {
-    alert('Review submitted successfully!');
-
+    alert("Review submitted successfully!");
+  
     const newReview = {
       name: professional,
       rating: stars,
-      review: reviewText
-    }
-
+      review: reviewText,
+    };
+  
     try {
-      // Reference to the document
+      // Reference to the "UserReviews" document
       const docRef = doc(firestore, "UserReviews", email);
   
       // Add the new review to the "reviews" array
       await updateDoc(docRef, {
-        reviews: arrayUnion(newReview), // Add the new review to the array
+        reviews: arrayUnion(newReview),
       });
   
       console.log("Review added successfully!");
+  
+      // Step 1: Find the professional in the "Users" collection
+      const usersRef = collection(firestore, "Users");
+      const q = query(
+        usersRef,
+        where("firstName", "==", professional.split(" ")[0]), // First name condition
+        where("lastName", "==", professional.split(" ")[1])   // Last name condition
+      );
+      
+      const querySnapshot = await getDocs(q);
+  
+      if (!querySnapshot.empty) {
+        // Step 2: Update the professional's document
+        querySnapshot.forEach(async (doc) => {
+          const professionalRef = doc.ref;
+          const professionalData = doc.data();
+  
+          const currentNumReviews = professionalData.numReviews || 0; // Default to 0
+          const currentAvgReview = professionalData.avgReview || 0; // Default to 0
+  
+          // Calculate new average
+          const newNumReviews = currentNumReviews + 1;
+          const newAvgReview =
+            (currentAvgReview * currentNumReviews + stars) / newNumReviews;
+  
+          // Update the professional's document
+          await updateDoc(professionalRef, {
+            avgReview: newAvgReview,
+            numReviews: newNumReviews,
+          });
+  
+          console.log(`Updated professional ${professional}'s avgReview and numReviews.`);
+        });
+      } else {
+        console.warn("No professional found with the specified name.");
+      }
     } catch (error) {
       if (error.code === "not-found") {
         // If the document doesn't exist, create it with the new review
+        const docRef = doc(firestore, "UserReviews", email);
         await setDoc(docRef, { reviews: [newReview] });
+  
         console.log("Document created and review added!");
       } else {
         console.error("Error adding review:", error);
       }
     }
-
-    console.log(stars, professional)
+  
     setIsReviewing(false);
     setStars(0);
-    setReviewText('');
+    setReviewText("");
     setPhoto(null);
-
-
   };
+  
 
   return (
     <div
