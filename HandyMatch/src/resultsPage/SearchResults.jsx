@@ -34,7 +34,8 @@ const SearchResults = () => {
             // Add only if all fields are valid
             professionalsList.push({
               id: doc.id,
-              name: data.firstName,
+              fname: data.firstName,
+              lname: data.lastName,
               price: data.rate,
               zipCode: data.zipcode,
             });
@@ -60,7 +61,7 @@ const SearchResults = () => {
   const handleCardClick = (professional) => {
     console.log(professional.id)
     navigate("/booking", {
-      state: { name: professional.name, price: professional.price, id: professional.id },
+      state: { fname: professional.fname, lname: professional.lname, price: professional.price, id: professional.id },
     });
   };
 
@@ -105,7 +106,7 @@ const SearchResults = () => {
       <Row className="g-3">
         {professionals.map((professional) => (
           <Col key={professional.id} xs={12} md={6} lg={3}>
-            <ProfessionalCard name={professional.name} price={professional.price} id = {professional.id}  handleClick={() => handleCardClick(professional)} />
+            <ProfessionalCard name={professional.fname} price={professional.price} id = {professional.id}  handleClick={() => handleCardClick(professional)} />
           </Col>
         ))}
       </Row>

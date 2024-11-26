@@ -31,7 +31,15 @@ const mockReviews = [
   },
 ];
 
+
 const MyReviews = () => {
+
+  const userData = JSON.parse(localStorage.getItem('user'));
+
+  const email = userData.email // Retrieve the value of 'email'
+  const firstName = userData.firstName; // Retrieve the value of 'firstname' and 'lastname'
+  const lastName = userData.lastName;
+
   return (
     <div className="d-flex">
       {/* Sidebar */}
@@ -41,8 +49,8 @@ const MyReviews = () => {
       <div className="flex-grow-1">
         {/* Header */}
         <div className="order-history-header">
-          <h1 className="profile-name">Jane Doe</h1>
-          <p className="profile-email">jane.doe@example.com</p>
+          <h1 className="profile-name">{firstName} {lastName}</h1>
+          <p className="profile-email">{email}</p>
         </div>
 
         {/* My Reviews List */}

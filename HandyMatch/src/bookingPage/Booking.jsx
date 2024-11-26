@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Card, Modal, Form } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { firestore } from "../authentication/firebase";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,14 +9,20 @@ import "react-datepicker/dist/react-datepicker.css";
 const Booking = () => {
   const location = useLocation();
 
-  const _name = location.state.name;
+  const _fname = location.state.fname;
+  const _lname = location.state.lname;
   const _id = location.state.id;
   const _price = location.state.price;
+
+  const customerData = JSON.parse(localStorage.getItem("user"));
+
+  console.log(customerData);
 
   const [email, setEmail] = useState("");
   const [id, setId] = useState(_id);
   const [price, setPrice] = useState(_price);
-  const [name, setFname] = useState(_name);
+  const [fname, setFname] = useState(_fname);
+  const [lname, setLname] = useState(_lname);
   const [services, setServices] = useState([]);
 
   const [showCalendar, setShowCalendar] = useState(false); // Controls calendar modal visibility
@@ -60,26 +66,43 @@ const Booking = () => {
       alert("Please select a date and enter an address.");
       return;
     }
+
+
   
     const jobData = {
       date: selectedDate.toISOString(), // Convert date to a string for Firestore
       isEmergency: isEmergency,
+      customer: customerData.firstName + " " + customerData.lastName,
+      professional: fname + " " + lname,
       address: address,
     };
   
     try {
-      // Reference to the document in the Jobs collection
-      const jobRef = doc(firestore, "Jobs", id);
-  
-      // Set the document content
-      await setDoc(jobRef, jobData);
-  
-      console.log("Job successfully added:", jobData);
-      alert("Appointment confirmed!");
-      setShowCalendar(false); // Close the modal
+        // Reference to the document in the Jobs collection
+        const jobRef = doc(firestore, "Jobs", id);
+    
+        // Check if the document already exists
+        const docSnapshot = await getDoc(jobRef);
+        if (docSnapshot.exists()) {
+            // If the document exists, add a new job to the array
+            await updateDoc(jobRef, {
+                jobs: arrayUnion(jobData), // Add jobData to the "jobs" array
+            });
+            console.log("New job added to existing document:", jobData);
+            alert("Appointment confirmed and added to the existing record!");
+        } else {
+            // If the document does not exist, create it with an array
+            await setDoc(jobRef, {
+                jobs: [jobData], // Initialize the "jobs" array with jobData
+            });
+            console.log("New document created with job:", jobData);
+            alert("Appointment confirmed and new record created!");
+        }
+    
+        setShowCalendar(false); // Close the modal
     } catch (error) {
-      console.error("Error adding document:", error);
-      alert("Failed to confirm the appointment. Please try again.");
+        console.error("Error adding/updating document:", error);
+        alert("Failed to confirm the appointment. Please try again.");
     }
   };
 
@@ -91,7 +114,7 @@ const Booking = () => {
         style={{ backgroundColor: "#f8f9fa", padding: "20px", borderRadius: "8px" }}
       >
         <Col xs={12} md={8}>
-          <h1 className="fw-bold">{name}</h1>
+          <h1 className="fw-bold">{fname}</h1>
           <Button variant="dark" className="mt-3" onClick={handleCalendarOpen}>
             Book an Appointment
           </Button>
