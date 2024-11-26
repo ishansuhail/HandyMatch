@@ -57,6 +57,13 @@ const SearchResults = () => {
     navigate("/homeowner-profile"); // Navigate to the user account page
   };
 
+  const handleCardClick = (professional) => {
+    console.log(professional.id)
+    navigate("/booking", {
+      state: { name: professional.name, price: professional.price, id: professional.id },
+    });
+  };
+
   return (
     <Container fluid className="mt-4">
       {/* Header Section */}
@@ -98,7 +105,7 @@ const SearchResults = () => {
       <Row className="g-3">
         {professionals.map((professional) => (
           <Col key={professional.id} xs={12} md={6} lg={3}>
-            <ProfessionalCard name={professional.name} price={professional.price} />
+            <ProfessionalCard name={professional.name} price={professional.price} id = {professional.id}  handleClick={() => handleCardClick(professional)} />
           </Col>
         ))}
       </Row>
