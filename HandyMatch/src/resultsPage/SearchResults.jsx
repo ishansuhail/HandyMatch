@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ProfessionalCard from "../components/ProfessionalCard";
 import { firestore } from "../authentication/firebase";
 import { query, collection, where, getDocs } from "firebase/firestore";
-import { fetchCoordinates, haversineDistance } from "../utils/geoUtils"; // Import utility functions
+import { fetchCoordinates, haversineDistance } from "../utils/geoUtils";
 
 const SearchResults = () => {
   const location = useLocation();
@@ -71,7 +71,8 @@ const SearchResults = () => {
                   price: parseFloat(data.rate), // Ensure price is numeric
                   zipCode: data.zipcode,
                   distance: distanceMiles,
-                  stars: 5, // Hardcoded stars value
+                  avgReview: data.avgReview || 0, // Fetch avgReview, default to 0
+                  numReviews: data.numReviews || 0, // Fetch numReviews, default to 0
                 };
               } catch (error) {
                 console.warn(
@@ -110,7 +111,7 @@ const SearchResults = () => {
       return;
     }
 
-    const sortProfessionals = async () => {
+    const sortProfessionals = () => {
       if (sort === "Distance") {
         const sortedByDistance = [...professionals].sort(
           (a, b) => parseFloat(a.distance) - parseFloat(b.distance)
@@ -121,6 +122,11 @@ const SearchResults = () => {
           (a, b) => a.price - b.price
         );
         setSortedProfessionals(sortedByPrice);
+      } else if (sort === "Reviews") {
+        const sortedByReviews = [...professionals].sort(
+          (a, b) => b.avgReview - a.avgReview
+        ); // Sort by reviews, greatest to least
+        setSortedProfessionals(sortedByReviews);
       }
     };
 
@@ -128,7 +134,7 @@ const SearchResults = () => {
   }, [sort, professionals]);
 
   const handleAccountClick = () => {
-    navigate("/homeowner-profile"); // Navigate to the user account page
+    navigate("/homeowner-profile");
   };
 
   return (
@@ -143,24 +149,10 @@ const SearchResults = () => {
       </Button>
 
       <Row className="mb-4">
-
-        {/* Search Bar */}
-        <Row className="mb-4">
-          <Col xs={12} md={6} lg={4}>
-            <Form className="d-flex">
-              <Form.Control 
-                type="text" 
-                placeholder="Patio Repair" 
-                className="me-2" 
-              />
-              <Button variant="outline-secondary">🔍</Button>
-            </Form>
-          </Col>
-        </Row>
-
         <Col>
           <Button onClick={() => setSort("Distance")}>Sort by Distance</Button>
           <Button onClick={() => setSort("Price")}>Sort by Price</Button>
+          <Button onClick={() => setSort("Reviews")}>Sort by Reviews</Button>
           <Button onClick={() => setSort("")}>Reset</Button>
         </Col>
       </Row>
@@ -176,7 +168,8 @@ const SearchResults = () => {
               <ProfessionalCard
                 name={professional.name}
                 price={professional.price}
-                stars={professional.stars} // Hardcoded stars
+                stars={professional.avgReview} // Use avgReview for stars
+                numReviews={professional.numReviews} // Pass numReviews
                 distance={professional.distance ? `${professional.distance} miles` : "N/A"}
               />
             </Col>
