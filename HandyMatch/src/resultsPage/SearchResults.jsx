@@ -1,107 +1,166 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProfessionalCard from "../components/ProfessionalCard";
-import "./SearchResults.css"; // Ensure this is properly imported
 import { firestore } from "../authentication/firebase";
 import { query, collection, where, getDocs } from "firebase/firestore";
+import { fetchCoordinates, haversineDistance } from "../utils/geoUtils";
 
 const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-  const _task = queryParams.get("task"); // Retrieve the value of 'task'
-  const _zipCode = queryParams.get("zipCode"); // Retrieve the value of 'zipCode'
+  const _task = queryParams.get("task");
+  const _zipCode = queryParams.get("zipCode");
 
   const [task] = useState(_task);
   const [zipCode] = useState(_zipCode);
-  const [sort, setSort] = useState("Price"); // Can be also Price or Reviews
-  const [professionals, setProfessionals] = useState([]); // Store professionals data
+  const [sort, setSort] = useState(""); // Sorting option
+  const [professionals, setProfessionals] = useState([]); // Original professionals
+  const [sortedProfessionals, setSortedProfessionals] = useState([]); // For displaying sorted professionals
+  const [userCoordinates, setUserCoordinates] = useState(null);
+  const [loading, setLoading] = useState(true); // For loading professionals
+  const [sorting, setSorting] = useState(false); // For sorting state
 
-  // Fetch data from Firestore
+  // Fetch user coordinates based on their zip code
+  useEffect(() => {
+    const getUserCoordinates = async () => {
+      try {
+        const coordinates = await fetchCoordinates(zipCode);
+        setUserCoordinates(coordinates);
+      } catch (error) {
+        console.error("Failed to fetch user coordinates:", error);
+      }
+    };
+    getUserCoordinates();
+  }, [zipCode]);
+
+  // Fetch professionals from Firestore
   useEffect(() => {
     const fetchProfessionals = async () => {
-      const collectionToSearch = "Users";
-      const colRef = collection(firestore, collectionToSearch);
-      const q = query(colRef, where("isProfessional", "==", true));
-      const querySnapshot = await getDocs(q);
+      setLoading(true);
+      try {
+        const colRef = collection(firestore, "Users");
+        const q = query(colRef, where("isProfessional", "==", true));
+        const querySnapshot = await getDocs(q);
 
-      const professionalsList = [];
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        
-        if (data.firstName && data.rate && data.zipcode && Array.isArray(data.skills) && data.skills.includes(task.charAt(0).toUpperCase() + task.slice(1).toLowerCase())) {
-            // Add only if all fields are valid
+        const professionalsList = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          if (
+            data.firstName &&
+            data.rate &&
+            data.zipcode &&
+            Array.isArray(data.skills) &&
+            data.skills.map(skill => skill.toLowerCase()).includes(task.toLowerCase())
+          ) {
             professionalsList.push({
               id: doc.id,
               name: data.firstName,
-              price: data.rate,
+              price: parseFloat(data.rate), // Ensure price is a number
               zipCode: data.zipcode,
+              rating: data.rating || 0, // Default to 0 if no rating
             });
-          } else {
-            console.warn(`Skipping document ${doc.id} due to missing fields`);
           }
-      });
+        });
 
-      if (sort === "Price"){
-        professionalsList.sort((a, b) => a.price - b.price);
-        console.log(professionalsList)
+        setProfessionals(professionalsList);
+        setSortedProfessionals(professionalsList); // Initialize sorted professionals
+      } catch (error) {
+        console.error("Error fetching professionals:", error);
+      } finally {
+        setLoading(false);
       }
-      setProfessionals(professionalsList);
     };
 
     fetchProfessionals();
-  }, []);
+  }, [task]);
+
+  // Sort professionals by selected criteria
+  useEffect(() => {
+    const sortProfessionals = async () => {
+      if (sort === "Distance" && userCoordinates) {
+        setSorting(true);
+        try {
+          const sortedByDistance = [];
+          for (const professional of professionals) {
+            try {
+              const professionalCoordinates = await fetchCoordinates(
+                professional.zipCode
+              );
+              sortedByDistance.push({
+                ...professional,
+                distance: haversineDistance(
+                  userCoordinates,
+                  professionalCoordinates
+                ),
+              });
+            } catch (error) {
+              console.warn(
+                `Skipping professional with invalid zipCode: ${professional.zipCode}`,
+                error
+              );
+            }
+          }
+          sortedByDistance.sort((a, b) => a.distance - b.distance);
+          setSortedProfessionals(sortedByDistance); // Update sorted professionals
+        } catch (error) {
+          console.error("Error sorting by distance:", error);
+        } finally {
+          setSorting(false);
+        }
+      } else if (sort === "Price") {
+        const sortedByPrice = [...professionals].sort(
+          (a, b) => a.price - b.price
+        );
+        setSortedProfessionals(sortedByPrice);
+      } else if (sort === "Rating") {
+        const sortedByRating = [...professionals].sort(
+          (a, b) => b.rating - a.rating
+        );
+        setSortedProfessionals(sortedByRating);
+      }
+    };
+
+    if (sort) {
+      sortProfessionals();
+    }
+  }, [sort, userCoordinates]); // Removed professionals from dependencies
 
   const handleAccountClick = () => {
-    navigate("/homeowner-profile"); // Navigate to the user account page
+    navigate("/homeowner-profile");
   };
 
   return (
     <Container fluid className="mt-4">
-      {/* Header Section */}
-      <div className="header-container">
-        <h2 className="header-title">HandyMatches for {task} near {zipCode}</h2>
-        <Button 
-          variant="dark" 
-          onClick={handleAccountClick} 
-          className="my-account-button"
-        >
-          My Account
-        </Button>
-      </div>
+      <h2>HandyMatches for {task} near {zipCode}</h2>
 
-      {/* Search Bar */}
       <Row className="mb-4">
-        <Col xs={12} md={6} lg={4}>
-          <Form className="d-flex">
-            <Form.Control 
-              type="text" 
-              placeholder="Patio Repair" 
-              className="me-2" 
-            />
-            <Button variant="outline-secondary">🔍</Button>
-          </Form>
+        <Col>
+          <Button onClick={() => setSort("Distance")}>Distance</Button>
+          <Button onClick={() => setSort("Price")}>Price</Button>
+          <Button onClick={() => setSort("Rating")}>Rating</Button>
         </Col>
       </Row>
 
-      {/* Sorting Options */}
-      <Row className="mb-4">
-        <Col xs={12} className="d-flex align-items-center">
-          <span className="me-3">Sort by:</span>
-          <Button variant="outline-dark" className="me-2" onClick={() => setSort("Distance")}>Distance</Button>
-          <Button variant="outline-dark" onClick={() => setSort("Rating")}>Rating</Button>
-        </Col>
-      </Row>
-
-      {/* Professional Cards Grid */}
-      <Row className="g-3">
-        {professionals.map((professional) => (
-          <Col key={professional.id} xs={12} md={6} lg={3}>
-            <ProfessionalCard name={professional.name} price={professional.price} />
-          </Col>
-        ))}
-      </Row>
+      {loading ? (
+        <Spinner animation="border" />
+      ) : sortedProfessionals.length === 0 ? (
+        <p>No professionals found.</p>
+      ) : (
+        <Row>
+          {sortedProfessionals.map((p) => (
+            <Col key={p.id}>
+              <ProfessionalCard
+                name={p.name}
+                price={p.price}
+                distance={p.distance ? `${p.distance.toFixed(1)} km` : "N/A"}
+                rating={p.rating ? `${p.rating} stars` : "N/A"}
+              />
+            </Col>
+          ))}
+        </Row>
+      )}
     </Container>
   );
 };

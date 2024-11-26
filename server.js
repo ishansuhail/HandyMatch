@@ -1,0 +1,10 @@
+const express = require('express');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const path = require('path');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.json());
+var cors = require('cors');
+app.use(cors());
+const port = 3001;
+const { initializeApp } = require('firebase/app');
