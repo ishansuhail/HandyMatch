@@ -138,12 +138,12 @@ const SearchResults = () => {
     });
   };
 
-  const handleCardClick = (professional) => {
-    console.log(professional.id)
-    navigate("/booking", {
-      state: { fname: professional.fname, lname: professional.lname, price: professional.price, id: professional.id },
-    });
-  };
+  // const handleCardClick = (professional) => {
+  //   console.log(professional.id)
+  //   navigate("/booking", {
+  //     state: { fname: professional.fname, lname: professional.lname, price: professional.price, id: professional.id },
+  //   });
+  // };
 
   return (
     <Container fluid className="mt-4">
@@ -170,6 +170,7 @@ const SearchResults = () => {
                 price={p.price}
                 distance={p.distance ? `${p.distance.toFixed(1)} km` : "N/A"}
                 rating={p.rating ? `${p.rating} stars` : "N/A"}
+                onClick={() => handleCardClick(p)}
               />
             </Col>
           ))}

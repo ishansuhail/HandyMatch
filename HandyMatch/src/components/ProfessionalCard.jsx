@@ -1,9 +1,9 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const ProfessionalCard = ({ name, price, handleClick }) => {
+const ProfessionalCard = ({ name, price, distance, rating, onClick }) => {
     return (
-        <Card style={{ width: '18rem' }} onClick = {handleClick} className="shadow-sm">
+        <Card style={{ width: '18rem' }} onClick={onClick} className="shadow-sm">
           <Card.Img
             variant="top"
             src="https://via.placeholder.com/150" //added placeholder image 
