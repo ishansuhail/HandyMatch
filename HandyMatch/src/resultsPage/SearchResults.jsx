@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Button, Spinner, Form } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProfessionalCard from "../components/ProfessionalCard";
 import { firestore } from "../authentication/firebase";
@@ -138,18 +138,34 @@ const SearchResults = () => {
     });
   };
 
-  // const handleCardClick = (professional) => {
-  //   console.log(professional.id)
-  //   navigate("/booking", {
-  //     state: { fname: professional.fname, lname: professional.lname, price: professional.price, id: professional.id },
-  //   });
-  // };
 
   return (
     <Container fluid className="mt-4">
       <h2>HandyMatches for {task} near {zipCode}</h2>
+      <Button 
+            variant="dark" 
+            onClick={handleAccountClick} 
+            className="my-account-button"
+          >
+            My Account
+          </Button>
 
       <Row className="mb-4">
+
+        {/* Search Bar */}
+        <Row className="mb-4">
+          <Col xs={12} md={6} lg={4}>
+            <Form className="d-flex">
+              <Form.Control 
+                type="text" 
+                placeholder="Patio Repair" 
+                className="me-2" 
+              />
+              <Button variant="outline-secondary">🔍</Button>
+            </Form>
+          </Col>
+        </Row>
+
         <Col>
           <Button onClick={() => setSort("Distance")}>Distance</Button>
           <Button onClick={() => setSort("Price")}>Price</Button>
