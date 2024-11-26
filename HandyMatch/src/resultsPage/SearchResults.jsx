@@ -128,7 +128,7 @@ const SearchResults = () => {
   }, [sort, professionals]);
 
   const handleAccountClick = () => {
-    navigate("/homeowner-profile");
+    navigate("/homeowner-profile"); // Navigate to the user account page
   };
 
   return (
@@ -143,6 +143,21 @@ const SearchResults = () => {
       </Button>
 
       <Row className="mb-4">
+
+        {/* Search Bar */}
+        <Row className="mb-4">
+          <Col xs={12} md={6} lg={4}>
+            <Form className="d-flex">
+              <Form.Control 
+                type="text" 
+                placeholder="Patio Repair" 
+                className="me-2" 
+              />
+              <Button variant="outline-secondary">🔍</Button>
+            </Form>
+          </Col>
+        </Row>
+
         <Col>
           <Button onClick={() => setSort("Distance")}>Sort by Distance</Button>
           <Button onClick={() => setSort("Price")}>Sort by Price</Button>
