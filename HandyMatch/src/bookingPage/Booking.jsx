@@ -125,6 +125,7 @@ const Booking = () => {
         service: service,
         address: address,
         date: selectedDate.toISOString(), // Convert date to a string for Firestore
+        status: "in progress"
     }
     
     const docSnapshot = await getDoc(jobRef);
