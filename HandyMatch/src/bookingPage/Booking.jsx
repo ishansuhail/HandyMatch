@@ -16,13 +16,12 @@ const Booking = () => {
 
   const customerData = JSON.parse(localStorage.getItem("user"));
 
-  console.log(customerData);
 
-  const [email, setEmail] = useState("");
   const [id, setId] = useState(_id);
   const [price, setPrice] = useState(_price);
   const [fname, setFname] = useState(_fname);
   const [lname, setLname] = useState(_lname);
+  const [service, setService] = useState('')
   const [services, setServices] = useState([]);
 
   const [showCalendar, setShowCalendar] = useState(false); // Controls calendar modal visibility
@@ -61,6 +60,10 @@ const Booking = () => {
     setSelectedDate(date); // Update selected date
   };
 
+  const handleSkillSelect = (e) => {
+    setService(e.target.value);
+  };
+
   const handleConfirm = async () => {
     if (!selectedDate || !address) {
       alert("Please select a date and enter an address.");
@@ -74,6 +77,7 @@ const Booking = () => {
       isEmergency: isEmergency,
       customer: customerData.firstName + " " + customerData.lastName,
       professional: fname + " " + lname,
+      service: service,
       address: address,
     };
   
@@ -98,12 +102,48 @@ const Booking = () => {
             console.log("New document created with job:", jobData);
             alert("Appointment confirmed and new record created!");
         }
+
+
+       
+
+        handleAddDataToReview();
     
         setShowCalendar(false); // Close the modal
     } catch (error) {
         console.error("Error adding/updating document:", error);
         alert("Failed to confirm the appointment. Please try again.");
     }
+    
+  };
+
+  const handleAddDataToReview = async () => {
+    const jobRef = doc(firestore, "UserReviews", customerData.email);
+
+    const jobData = {
+        professionalId: id,
+        professional: fname + " " + lname,
+        service: service,
+        address: address,
+        date: selectedDate.toISOString(), // Convert date to a string for Firestore
+    }
+    
+    const docSnapshot = await getDoc(jobRef);
+        if (docSnapshot.exists()) {
+            // If the document exists, add a new job to the array
+            await updateDoc(jobRef, {
+                jobs: arrayUnion(jobData), // Add jobData to the "jobs" array
+            });
+            console.log("New job added to existing document:", jobData);
+            alert("Appointment confirmed and added to the existing record!");
+        } else {
+            // If the document does not exist, create it with an array
+            await setDoc(jobRef, {
+                jobs: [jobData], // Initialize the "jobs" array with jobData
+            });
+            console.log("New document created with job:", jobData);
+            alert("Appointment confirmed and new record created!");
+        }
+
   };
 
   return (
@@ -203,6 +243,23 @@ const Booking = () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
+            </Form.Group>
+
+
+            <Form.Group className="mb-3">
+              <Form.Label>Select a Skill</Form.Label>
+              <Form.Control
+                as="select"
+                value={service}
+                onChange={handleSkillSelect}
+              >
+                <option value="">-- Select a Skill --</option>
+                {services.map((skill, index) => (
+                  <option key={index} value={skill}>
+                    {skill}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
 
             {/* Confirm Button */}
