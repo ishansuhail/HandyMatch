@@ -1,22 +1,27 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const ProfessionalCard = ({ name, price, handleClick }) => {
-    return (
-        <Card style={{ width: '18rem' }} onClick = {handleClick} className="shadow-sm">
-          <Card.Img
-            variant="top"
-            src="https://via.placeholder.com/150" //added placeholder image 
-            alt="Placeholder"
-            className="p-3"
-            style={{ opacity: 0.5 }}
-          />
-          <Card.Body>
-            <Card.Text className="text-center mb-1">{name}</Card.Text>
-            <Card.Text className="text-center fw-bold">${price}</Card.Text>
-          </Card.Body>
-        </Card>
-      );
-}
- 
+const ProfessionalCard = ({ name, price, stars, distance }) => {
+  const renderStars = (stars) => {
+    const starElements = [];
+    for (let i = 0; i < stars; i++) {
+      starElements.push(<span key={i}>&#9733;</span>); // Unicode star character
+    }
+    return starElements;
+  };
+
+  return (
+    <Card style={{ width: '18rem' }} className="shadow-sm">
+      <Card.Body>
+        <Card.Text className="text-center">{name}</Card.Text>
+        <Card.Text className="text-center fw-bold">${price}</Card.Text>
+        <Card.Text className="text-center">{renderStars(stars)}</Card.Text>
+        <Card.Text className="text-center">
+          Distance: {distance || "N/A"}
+        </Card.Text>
+      </Card.Body>
+    </Card>
+  );
+};
+
 export default ProfessionalCard;
