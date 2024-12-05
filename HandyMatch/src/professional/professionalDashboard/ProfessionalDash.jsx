@@ -10,18 +10,7 @@ import './ProfessionalDash.css';
 
 const ProfessionalDash = () => {
   const [professionalName, setProfessionalName] = useState('');
-  const [requests, setRequests] = useState([
-    { name: "John D.", role: "Homeowner", dateRequested: "11/1/24" , isEmergency: false },
-    { name: "Amber T.", role: "Homeowner", dateRequested: "10/29/24", isEmergency: false },
-    { name: "Michael B.", role: "Homeowner", dateRequested: "10/25/24",  isEmergency: true },
-    { name: "Sarah W.", role: "Homeowner", dateRequested: "10/20/24",  isEmergency: false },
-    { name: "David K.", role: "Homeowner", dateRequested: "10/18/24",  isEmergency: false },
-    { name: "Emma R.", role: "Homeowner", dateRequested: "10/15/24",  isEmergency: true },
-    { name: "Olivia P.", role: "Homeowner", dateRequested: "10/10/24",  isEmergency: false },
-    { name: "Liam N.", role: "Homeowner", dateRequested: "10/05/24",  isEmergency: false },
-    { name: "Sophia M.", role: "Homeowner", dateRequested: "10/01/24", isEmergency: false },
-    { name: "James L.", role: "Homeowner", dateRequested: "09/28/24",  isEmergency: false },
-  ]);
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     const fetchProfessionalName = async () => {
@@ -126,34 +115,9 @@ const ProfessionalDash = () => {
             }
           })
 
-          
-
-          // if (data.customer === name && data.dateRequested === _doc.data().)
-          
-
-          // Example: Save to state if using React
-          // setJobs([...prevJobs, newJob]);
         }
       })
 
-      
-
-      // jobs.forEach((job) => {
-      //   console.log('Job ' + job)
-      // })
-      
-
-      
-
-      // usersSnapshot.forEach( _doc => {
-      //   cuustomer
-      //   const date = _doc.data().date
-      //   const customer = _doc.data().customer
-      //   console.log(date, customer) 
-      //   console.log(_doc.data())
-
-
-      // });
     }
 
 
