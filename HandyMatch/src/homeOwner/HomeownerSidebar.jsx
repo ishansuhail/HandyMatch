@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaSearch, FaListAlt, FaStar, FaUser, FaBars } from 'react-icons/fa';
+import SignOutButton from '../authentication/SignOut';
 
 function HomeownerSidebar() {
   const [collapsed, setCollapsed] = useState(false); // Start with expanded sidebar for wider look
@@ -24,6 +25,9 @@ function HomeownerSidebar() {
         transition: 'width 0.25s',
       }}
     >
+
+      {!collapsed && <SignOutButton />}
+      
       <button
         className="btn btn-light mb-4"
         onClick={toggleSidebar}

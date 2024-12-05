@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaHome, FaBriefcase, FaStar, FaUser, FaBars } from 'react-icons/fa';
+import SignOutButton from '../authentication/SignOut';
 
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false); // Start with expanded sidebar
@@ -16,6 +17,7 @@ function Sidebar() {
   };
 
   return (
+    
     <div
       className={`d-flex flex-column p-4`}
       style={{
@@ -25,6 +27,9 @@ function Sidebar() {
         transition: 'width 0.25s',
       }}
     >
+
+      {!collapsed && <SignOutButton />}
+            
       <button
         className="btn btn-light mb-4"
         onClick={toggleSidebar}

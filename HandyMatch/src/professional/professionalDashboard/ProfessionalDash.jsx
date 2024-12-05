@@ -45,7 +45,7 @@ const ProfessionalDash = () => {
                 }));
             
 
-                setRequests(prevRequests => [...prevRequests, ...extractedData]);
+                setRequests(extractedData);
             
               } else {
                 console.log("No jobs field or it is not an array.");
@@ -153,11 +153,21 @@ const ProfessionalDash = () => {
         <div className="p-4">
           <h4 className="mb-4">Client Requests ({sortedRequests.length})</h4>
           <div className="row row-cols-2 g-4"> {/* Two cards per row */}
-            {sortedRequests.map((request, index) => (
+          {sortedRequests.length > 0 ? (
+            sortedRequests.map((request, index) => (
               <div className="col" key={index}>
-                <ClientRequestCard {...request} onAcceptJob={handleAcceptJob} onDeclineJob = {handleDeclineJob} />
+                <ClientRequestCard
+                  {...request}
+                  onAcceptJob={handleAcceptJob}
+                  onDeclineJob={handleDeclineJob}
+                />
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="col-12 text-center">
+              <p className="text-muted">No records found</p>
+            </div>
+          )}
           </div>
         </div>
       </div>
