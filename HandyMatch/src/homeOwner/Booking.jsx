@@ -7,12 +7,15 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Booking = () => {
-  const location = useLocation();
+  const savedState = JSON.parse(localStorage.getItem("bookingData"));
+  const _fname = savedState?.fname;
+  const _lname = savedState?.lname;
+  const _id = savedState?.id;
+  const _price = savedState?.price;
 
-  const _fname = location.state.fname;
-  const _lname = location.state.lname;
-  const _id = location.state.id;
-  const _price = location.state.price;
+
+  console.log(_fname, _lname, _id, _price);
+  
 
   const customerData = JSON.parse(localStorage.getItem("user"));
 
@@ -30,6 +33,8 @@ const Booking = () => {
   const [address, setAddress] = useState(""); // Stores address input
 
   useEffect(() => {
+
+
     const fetchProfessionalData = async () => {
       try {
         // Create a reference to the document

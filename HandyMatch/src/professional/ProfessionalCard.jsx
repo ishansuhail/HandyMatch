@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const ProfessionalCard = ({ name, price, stars, distance, numReviews }) => {
+const ProfessionalCard = ({ name, price, stars, distance, numReviews, handleClick }) => {
   const renderStars = (stars) => {
     const starElements = [];
     for (let i = 0; i < Math.round(stars); i++) {
@@ -11,7 +11,7 @@ const ProfessionalCard = ({ name, price, stars, distance, numReviews }) => {
   };
 
   return (
-    <Card style={{ width: '18rem' }} className="shadow-sm">
+    <Card style={{ width: '18rem' }} onClick = {handleClick} className="shadow-sm">
       <Card.Body>
         <Card.Text className="text-center">{name}</Card.Text>
         <Card.Text className="text-center fw-bold">${price}</Card.Text>

@@ -137,6 +137,19 @@ const SearchResults = () => {
     navigate("/homeowner-profile");
   };
 
+  const handleCardClick = (professional) => {
+    console.log(professional.id)
+
+    localStorage.setItem("bookingData", JSON.stringify({
+      fname: professional.name,
+      lname: professional.id.split("_")[1],
+      price: professional.price,
+      id: professional.id,
+    }));
+
+    navigate("/booking");
+  };
+
   return (
     <Container fluid className="mt-4">
       <h2>HandyMatches for {task} near {zipCode}</h2>
@@ -171,6 +184,7 @@ const SearchResults = () => {
                 stars={professional.avgReview} // Use avgReview for stars
                 numReviews={professional.numReviews} // Pass numReviews
                 distance={professional.distance ? `${professional.distance} miles` : "N/A"}
+                handleClick={() => handleCardClick(professional)}
               />
             </Col>
           ))}
