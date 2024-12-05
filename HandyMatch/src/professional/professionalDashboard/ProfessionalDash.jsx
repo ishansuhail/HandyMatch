@@ -4,7 +4,7 @@ import ClientRequestCard from '../ClientRequestCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaBell } from 'react-icons/fa';
 import { auth, firestore } from '../../authentication/firebase';
-import { collection, getDocs, getDoc, doc } from 'firebase/firestore'; // Import Firestore functions
+import { collection, getDocs, getDoc, doc, updateDoc, setDoc, arrayUnion } from 'firebase/firestore'; // Import Firestore functions
 import './ProfessionalDash.css';
 
 
@@ -58,8 +58,6 @@ const ProfessionalDash = () => {
 
                 setRequests(prevRequests => [...prevRequests, ...extractedData]);
             
-                // Example: Save to state if using React
-                // setJobs(extractedData);
               } else {
                 console.log("No jobs field or it is not an array.");
               }
@@ -84,15 +82,87 @@ const ProfessionalDash = () => {
     fetchProfessionalName();
   }, []);
 
-  const handleAcceptJob = (name) => {
+  const handleAcceptJob = async (name, dateRequested) => {
     setRequests((prevRequests) =>
-      prevRequests.filter((request) => request.name !== name)
+      prevRequests.filter((request) => request.name !== name && request.dateRequested !== dateRequested)
     );
+
+    const user = auth.currentUser;
+    if (user) {
+      const uid = user.uid;
+      const usersCollection = collection(firestore, 'Jobs');
+      const usersSnapshot = await getDocs(usersCollection);
+
+      usersSnapshot.forEach(async _doc => {
+        if (_doc.id.endsWith(`_${uid}`)) {
+          const data = _doc.data().jobs;
+          data.forEach(async (job) => {
+
+            if (job.customer === name && job.date.split('T')[0] === dateRequested) {
+              
+            
+              const newJobRef = doc(firestore, "AcceptedJobs", _doc.id);
+            
+              try {
+                // Check if the document exists
+                const docSnap = await getDoc(newJobRef);
+            
+                if (docSnap.exists()) {
+                  // If document exists, update the jobs array
+                  await updateDoc(newJobRef, {
+                    jobs: arrayUnion(job),
+                  });
+                  console.log("Job added to existing jobs array in document with ID:", newJobRef.id);
+                } else {
+                  // If document doesn't exist, create it and add the jobs array
+                  await setDoc(newJobRef, {
+                    jobs: arrayUnion(job),
+                  });
+                  console.log("New document created and job added to jobs array with ID:", newJobRef.id);
+                }
+              } catch (error) {
+                console.error("Error updating or creating document:", error);
+              }
+            }
+          })
+
+          
+
+          // if (data.customer === name && data.dateRequested === _doc.data().)
+          
+
+          // Example: Save to state if using React
+          // setJobs([...prevJobs, newJob]);
+        }
+      })
+
+      
+
+      // jobs.forEach((job) => {
+      //   console.log('Job ' + job)
+      // })
+      
+
+      
+
+      // usersSnapshot.forEach( _doc => {
+      //   cuustomer
+      //   const date = _doc.data().date
+      //   const customer = _doc.data().customer
+      //   console.log(date, customer) 
+      //   console.log(_doc.data())
+
+
+      // });
+    }
+
+
+    
   };
 
-  const handleDeclineJob = (name) => {
+  const handleDeclineJob = (name, dateRequested) => {
     setRequests((prevRequests) =>
-      prevRequests.filter((request) => request.name !== name)
+      prevRequests.filter((request) => request.name !== name && request.dateRequested !== dateRequested)
     );
   };
 

@@ -7,11 +7,11 @@ function ClientRequestCard({ name, role, image, dateRequested, description, isEm
   const initials = name.split(' ').map(n => n[0]).join('');
 
   const acceptJob = () => {
-    onAcceptJob(name); // Pass the job name to the handler
+    onAcceptJob(name, dateRequested); // Pass the job name to the handler
   };
 
   const declineJob = () => {
-    onDeclineJob(name); // Pass the job name to the handler
+    onDeclineJob(name, dateRequested); // Pass the job name to the handler
   }
 
   return (
