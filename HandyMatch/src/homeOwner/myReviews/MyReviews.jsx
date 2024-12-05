@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import HomeownerSidebar from '../components/HomeownerSidebar';
-import ReviewCard from '../components/ReviewCard';
+import HomeownerSidebar from '../HomeownerSidebar';
+import ReviewCard from '../../professional/ReviewCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './MyReviews.css';
 

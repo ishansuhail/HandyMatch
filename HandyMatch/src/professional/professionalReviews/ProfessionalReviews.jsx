@@ -1,7 +1,7 @@
 // src/ProfessionalReviews/ProfessionalReviews.jsx
 import React from 'react';
-import Sidebar from '../components/Sidebar';
-import ReviewCard from '../components/ReviewCard';
+import Sidebar from '../Sidebar';
+import ReviewCard from '../ReviewCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProfessionalReviews.css';
 

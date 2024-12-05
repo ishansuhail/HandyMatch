@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
-import HomeownerSidebar from '../components/HomeownerSidebar';
+import HomeownerSidebar from '../HomeownerSidebar';
 import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './HomeownerProfile.css';

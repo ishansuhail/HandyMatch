@@ -1,9 +1,9 @@
 // src/professionalProfile/ProfessionalProfile.jsx
 import React from 'react';
-import ImageCarousel from '../components/ProfessionalProfile/ImageCarousel';
-import ServiceCard from '../components/ProfessionalProfile/ServiceCard';
-import ReviewCard from '../components/ProfessionalProfile/ReviewCard';
-import FAQ from '../components/ProfessionalProfile/FAQ';
+import ImageCarousel from '../../components/ProfessionalProfile/ImageCarousel';
+import ServiceCard from '../../components/ProfessionalProfile/ServiceCard';
+import ReviewCard from '../../components/ProfessionalProfile/ReviewCard';
+import FAQ from '../../components/ProfessionalProfile/FAQ';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProfessionalProfile.css';
 

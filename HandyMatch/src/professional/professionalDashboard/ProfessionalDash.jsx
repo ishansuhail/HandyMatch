@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../components/Sidebar';
-import ClientRequestCard from '../components/ClientRequestCard';
+import Sidebar from '../Sidebar';
+import ClientRequestCard from '../ClientRequestCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaBell } from 'react-icons/fa';
-import { auth, firestore } from '../authentication/firebase';
+import { auth, firestore } from '../../authentication/firebase';
 import { collection, getDocs, getDoc, doc } from 'firebase/firestore'; // Import Firestore functions
 import './ProfessionalDash.css';
 

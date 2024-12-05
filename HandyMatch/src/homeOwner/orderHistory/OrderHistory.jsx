@@ -1,9 +1,9 @@
 import React,{ useEffect, useState }  from 'react';
-import HomeownerSidebar from '../components/HomeownerSidebar';
-import '../OrderHistory/OrderHistory.css';
-import OrderHistoryCard from '../components/OrderHistoryCard';
+import HomeownerSidebar from '../HomeownerSidebar';
+import './OrderHistory.css';
+import OrderHistoryCard from '../../components/OrderHistoryCard';
 import { getDoc, doc } from 'firebase/firestore';
-import { firestore } from '../authentication/firebase';
+import { firestore } from '../../authentication/firebase';
 
 
 
@@ -52,10 +52,6 @@ const OrderHistory = () => {
 
         if (querySnapshot){
           const documentData = querySnapshot.data();
-
-          
-
-          console.log("Fetched documents:", documentData);
 
           const newOrders = documentData.jobs.map((job, index) => ({
             id: orders.length + index + 1, // Generate a unique id based on current length

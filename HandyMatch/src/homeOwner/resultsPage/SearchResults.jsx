@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import ProfessionalCard from "../components/ProfessionalCard";
-import { firestore } from "../authentication/firebase";
+import ProfessionalCard from "../../professional/ProfessionalCard";
+import { firestore } from "../../authentication/firebase";
 import { query, collection, where, getDocs } from "firebase/firestore";
-import { fetchCoordinates, haversineDistance } from "../utils/geoUtils";
+import { fetchCoordinates, haversineDistance } from "../../utils/geoUtils";
 
 const SearchResults = () => {
   const location = useLocation();
@@ -149,7 +149,7 @@ const SearchResults = () => {
       </Button>
 
       <Row className="mb-4">
-        <Col>
+        <Col className="d-flex flex-row gap-2">
           <Button onClick={() => setSort("Distance")}>Sort by Distance</Button>
           <Button onClick={() => setSort("Price")}>Sort by Price</Button>
           <Button onClick={() => setSort("Reviews")}>Sort by Reviews</Button>
@@ -164,7 +164,7 @@ const SearchResults = () => {
       ) : (
         <Row>
           {sortedProfessionals.map((professional) => (
-            <Col key={professional.id} xs={12} md={6} lg={3}>
+            <Col className = "mb-4" key={professional.id} xs={12} md={6} lg={3}>
               <ProfessionalCard
                 name={professional.name}
                 price={professional.price}
