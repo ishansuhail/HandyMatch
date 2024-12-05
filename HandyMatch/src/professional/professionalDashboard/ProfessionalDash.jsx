@@ -55,7 +55,6 @@ const ProfessionalDash = () => {
                   isEmergency: job.isEmergency,
                 }));
             
-                console.log("Extracted Data:", extractedData);
 
                 setRequests(prevRequests => [...prevRequests, ...extractedData]);
             
@@ -85,6 +84,12 @@ const ProfessionalDash = () => {
     fetchProfessionalName();
   }, []);
 
+  const handleAcceptJob = (name) => {
+    setRequests((prevRequests) =>
+      prevRequests.filter((request) => request.name !== name)
+    );
+  };
+
   const sortedRequests = [...requests].sort((a, b) => b.isEmergency - a.isEmergency);
 
   return (
@@ -110,7 +115,7 @@ const ProfessionalDash = () => {
           <div className="row row-cols-2 g-4"> {/* Two cards per row */}
             {sortedRequests.map((request, index) => (
               <div className="col" key={index}>
-                <ClientRequestCard {...request} />
+                <ClientRequestCard {...request} onAcceptJob={handleAcceptJob} />
               </div>
             ))}
           </div>

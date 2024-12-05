@@ -3,8 +3,12 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaExclamationCircle } from 'react-icons/fa';
 
-function ClientRequestCard({ name, role, image, dateRequested, description, isEmergency }) {
+function ClientRequestCard({ name, role, image, dateRequested, description, isEmergency, onAcceptJob }) {
   const initials = name.split(' ').map(n => n[0]).join('');
+
+  const acceptJob = () => {
+    onAcceptJob(name); // Pass the job name to the handler
+  };
 
   return (
     <div className="card w-100 h-100 border rounded shadow-sm">
@@ -29,7 +33,7 @@ function ClientRequestCard({ name, role, image, dateRequested, description, isEm
         <p className="card-text">{description}</p>
         <div className="d-flex">
           <button className="btn btn-outline-secondary btn-sm">Deny Request</button>
-          <button className="btn btn-dark btn-sm ms-2">View More</button>
+          <button onClick = {acceptJob} className="btn btn-dark btn-sm ms-2">Accept</button>
         </div>
       </div>
     </div>

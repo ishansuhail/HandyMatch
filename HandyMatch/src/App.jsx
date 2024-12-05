@@ -30,6 +30,7 @@ import OrderHistory from './homeOwner/orderHistory/OrderHistory';
 import MyReviews from './homeOwner/myReviews/MyReviews';
 import ProfessionalReviews from './professional/professionalReviews/ProfessionalReviews';
 import Booking from './homeOwner/Booking.jsx';
+import PastJobs from './professional/PastJobs.jsx';
 
 
 
@@ -59,6 +60,7 @@ function App() {
               <Route path="/professional-reviews" element={<ProfessionalReviews />} />
               <Route path = "/search" element={<SearchResults />} />
               <Route path = "/booking" element={<Booking />} />
+              <Route path = "/past-jobs" element={<PastJobs />} />
             </Routes>
             <ToastContainer />
           </div>
