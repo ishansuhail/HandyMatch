@@ -1,38 +1,56 @@
 // src/ProfessionalReviews/ProfessionalReviews.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from '../Sidebar';
 import ReviewCard from '../ReviewCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProfessionalReviews.css';
+import { auth, firestore } from '../../authentication/firebase';
+import { doc, getDoc  } from 'firebase/firestore';
 
-const mockProfessionalReviews = [
-  {
-    id: 1,
-    stars: 5,
-    feedback: 'Amazing work, highly recommended!',
-    service: 'Electrical Work',
-    client: 'John Smith',
-    date: '2024-11-01',
-  },
-  {
-    id: 2,
-    stars: 4,
-    feedback: 'Good work but a bit expensive.',
-    service: 'Roof Installation',
-    client: 'Mary Johnson',
-    date: '2024-10-15',
-  },
-  {
-    id: 3,
-    stars: 3,
-    feedback: 'Satisfactory experience.',
-    service: 'HVAC Repair',
-    client: 'Michael Brown',
-    date: '2024-09-20',
-  },
-];
+const mockProfessionalReviews = [];
 
 const ProfessionalReviews = () => {
+
+  const [reviews, setReviews] = useState([]);
+
+  
+
+  const userData = JSON.parse(localStorage.getItem('user'));
+
+  const email =  userData.email;
+  const firstName = userData.firstName; // Retrieve the value of 'firstname' and 'lastname'
+  const lastName = userData.lastName;
+
+
+  useEffect(() => {
+
+    
+
+    const queryName = firstName + ' ' + lastName;
+
+    const fetchReviews = async (queryName) => {
+
+    try {
+      // Create a reference to the document
+      const docRef = doc(firestore, "ProfessionalReviews", queryName);
+  
+      // Fetch the document
+      const docSnapshot = await getDoc(docRef);
+  
+      if (docSnapshot.exists()) {
+        // Return the document's data
+        console.log("Document data:", docSnapshot.data().reviews);
+        setReviews(docSnapshot.data().reviews);
+        console.log(docSnapshot.data());
+      } 
+    } catch (error) {
+      console.error("Error retrieving document:", error);
+      
+    }
+  }
+  fetchReviews(queryName);
+
+  }, [])
   return (
     <div className="d-flex">
       {/* Sidebar */}
@@ -42,24 +60,27 @@ const ProfessionalReviews = () => {
       <div className="flex-grow-1">
         {/* Header */}
         <div className="reviews-header">
-          <h1 className="profile-name">Bob The Builder</h1>
-          <p className="profile-email">bob.builder@example.com</p>
+          <h1 className="profile-name">{firstName} {lastName}</h1>
+          <p className="profile-email">{email}</p>
         </div>
 
         {/* Professional Reviews Section */}
         <div className="reviews-content">
           <h2 className="reviews-title">Client Reviews</h2>
           <div className="reviews-list">
-            {mockProfessionalReviews.map((review) => (
-              <ReviewCard
-                key={review.id}
-                stars={review.stars}
-                feedback={review.feedback}
-                service={review.service}
-                professional={review.client}
-                date={review.date}
-              />
-            ))}
+            
+          {reviews.length === 0 ? (
+              <p>No reviews yet.</p>
+            ) : (
+              reviews.map((review, index) => (
+                <ReviewCard
+                  key={index}
+                  stars={review.rating}
+                  feedback={review.review}
+                />
+                
+              ))
+            )}
           </div>
         </div>
       </div>

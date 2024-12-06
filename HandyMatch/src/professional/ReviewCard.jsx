@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 
-const ReviewCard = ({ review, stars , name}) => {
+const ReviewCard = ({ stars, feedback}) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editFeedback, setEditFeedback] = useState(review);
+  const [editFeedback, setEditFeedback] = useState(feedback);
   const [editStars, setEditStars] = useState(stars);
 
-  console.log("stars", stars)
 
   const handleReviewSubmit = () => {
     alert('Review updated successfully!');
@@ -105,22 +104,12 @@ const ReviewCard = ({ review, stars , name}) => {
           ))}
         </div>
         <p style={styles.text}>
-          <strong>Feedback:</strong> {review}
-        </p>
-        <p style={styles.text}>
-          <strong>Professional:</strong> {name}
+          <strong>Feedback:</strong> {feedback}
         </p>
         
       </div>
 
-      <div>
-        <button
-          style={styles.editButton}
-          onClick={() => setIsEditing(true)}
-        >
-          <FaEdit /> Edit
-        </button>
-      </div>
+      
 
       {isEditing && (
         <div style={styles.modal}>

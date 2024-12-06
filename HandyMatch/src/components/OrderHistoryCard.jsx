@@ -14,7 +14,6 @@ const OrderHistoryCard = ({ service, professional, date, status }) => {
   const email = userData.email // Retrieve the value of 'email'
 
 
-
   const handleReviewSubmit = async () => {
     alert("Review submitted successfully!");
   
@@ -23,15 +22,23 @@ const OrderHistoryCard = ({ service, professional, date, status }) => {
       rating: stars,
       review: reviewText,
     };
+
+    const _newReview = {rating: stars, review: reviewText};
   
     try {
       // Reference to the "UserReviews" document
       const docRef = doc(firestore, "UserReviews", email);
+
+      const professionalDocRef = doc(firestore, "ProfessionalReviews", professional);
   
       // Add the new review to the "reviews" array
       await updateDoc(docRef, {
         reviews: arrayUnion(newReview),
       });
+
+      await updateDoc(professionalDocRef, {
+        reviews: arrayUnion(_newReview)
+      })
   
       console.log("Review added successfully!");
   
@@ -42,6 +49,7 @@ const OrderHistoryCard = ({ service, professional, date, status }) => {
         where("firstName", "==", professional.split(" ")[0]), // First name condition
         where("lastName", "==", professional.split(" ")[1])   // Last name condition
       );
+
       
       const querySnapshot = await getDocs(q);
   
@@ -75,6 +83,9 @@ const OrderHistoryCard = ({ service, professional, date, status }) => {
         // If the document doesn't exist, create it with the new review
         const docRef = doc(firestore, "UserReviews", email);
         await setDoc(docRef, { reviews: [newReview] });
+
+        const professionalDocRef = doc(firestore, "ProfessionalReviews", professional)
+        await setDoc(professionalDocRef, { reviews: [_newReview] });
   
         console.log("Document created and review added!");
       } else {
