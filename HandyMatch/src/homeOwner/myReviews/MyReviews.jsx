@@ -51,7 +51,6 @@ const MyReviews = () => {
       const docSnap = await getDoc(reviewsRef)
 
       if (docSnap.exists()) {
-        console.log(docSnap.data().reviews)
         setReviews(docSnap.data().reviews)
       }
 
