@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeownerSidebar from '../HomeownerSidebar';
 import ReviewCard from '../../professional/ReviewCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './MyReviews.css';
+import { doc, getDoc } from 'firebase/firestore';
+import { firestore } from '../../authentication/firebase';
 
 const mockReviews = [
   {
@@ -34,11 +36,28 @@ const mockReviews = [
 
 const MyReviews = () => {
 
+  const [reviews, setReviews] = useState([])
+
   const userData = JSON.parse(localStorage.getItem('user'));
 
   const email = userData.email // Retrieve the value of 'email'
   const firstName = userData.firstName; // Retrieve the value of 'firstname' and 'lastname'
   const lastName = userData.lastName;
+
+  useEffect(() => {
+
+    const fetchReviews = async () => {
+      const reviewsRef = doc(firestore, "UserReviews", email)
+      const docSnap = await getDoc(reviewsRef)
+
+      if (docSnap.exists()) {
+        console.log(docSnap.data().reviews)
+        setReviews(docSnap.data().reviews)
+      }
+
+    }
+    fetchReviews();
+  }, [])
 
   return (
     <div className="d-flex">
@@ -57,9 +76,14 @@ const MyReviews = () => {
         <div className="reviews-content">
           <h2 className="reviews-title">My Reviews</h2>
           <div className="reviews-list">
-            {mockReviews.map((review) => (
-              <ReviewCard key={review.id} {...review} />
-            ))}
+            {reviews.length > 0 ? (
+              reviews.map((review, index) => (
+                <ReviewCard key={review.id || index} review = {review.review} stars = {review.rating} name = {review.name} />
+              ))
+            ) : (
+              <p className="text-muted">No reviews found.</p>
+            )
+            }
           </div>
         </div>
       </div>
