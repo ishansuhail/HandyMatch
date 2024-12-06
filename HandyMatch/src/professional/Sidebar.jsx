@@ -50,7 +50,7 @@ function Sidebar() {
           className={`nav-link text-dark d-flex align-items-center mb-3 ${isActive(['/past-jobs'])}`}
         >
           <FaBriefcase className="me-2" />
-          {!collapsed && <span>Past Jobs</span>}
+          {!collapsed && <span>Jobs</span>}
         </a>
         <a
           href="/professional-reviews"

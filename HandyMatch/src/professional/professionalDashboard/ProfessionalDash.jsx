@@ -72,8 +72,19 @@ const ProfessionalDash = () => {
   }, []);
 
   const handleAcceptJob = async (name, dateRequested) => {
+    const matchedRequest = requests.find(
+      (request) => request.name === name && request.dateRequested === dateRequested
+    );
+  
+    if (matchedRequest) {
+      console.log("Matched Request:", matchedRequest);
+    }
+  
+    // Update the state to exclude the matched request
     setRequests((prevRequests) =>
-      prevRequests.filter((request) => request.name !== name && request.dateRequested !== dateRequested)
+      prevRequests.filter(
+        (request) => request.name !== name && request.dateRequested !== dateRequested
+      )
     );
 
     const user = auth.currentUser;

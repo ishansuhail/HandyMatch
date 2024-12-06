@@ -166,15 +166,22 @@ const Booking = () => {
           </Button>
         </Col>
         <Col xs={12} md={4} className="text-end">
-          <div
-            style={{
-              width: "80px",
-              height: "80px",
-              border: "3px solid black",
-              borderRadius: "50%",
-              display: "inline-block",
-            }}
-          ></div>
+        <div className="profile-picture">
+          <svg
+            width="100"
+            height="100"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="feather feather-user"
+          >
+            <circle cx="12" cy="7" r="4"></circle>
+            <path d="M5.5 20h13a2.5 2.5 0 0 0-2.5-2.5h-8A2.5 2.5 0 0 0 5.5 20z"></path>
+          </svg>
+        </div>
         </Col>
       </Row>
 

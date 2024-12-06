@@ -35,6 +35,7 @@ import PastJobs from './professional/PastJobs.jsx';
 
 
 
+
 function App() {
   const [user, setUser] = useState();
   useEffect(() => {
@@ -53,7 +54,7 @@ function App() {
               <Route path="/register" element={<SignUp />} />
               <Route path="/professional-dashboard" element={<ProfessionalDash />} />
               <Route path = "/home" element={<HomePage />} />
-              <Route path="/professional-profile" element={<ProfessionalProfile />} />
+              <Route path="/my-account" element={<ProfessionalProfile />} />
               <Route path="/homeowner-profile" element={<HomeownerProfile />} />
               <Route path="/order-history" element={<OrderHistory />} />
               <Route path="/my-reviews" element={<MyReviews />} /> 

@@ -1,7 +1,7 @@
 import React,{ useEffect, useState }  from 'react';
 import HomeownerSidebar from '../HomeownerSidebar';
 import './OrderHistory.css';
-import OrderHistoryCard from '../../components/OrderHistoryCard';
+import OrderHistoryCard from '../../professional/OrderHistoryCard';
 import { getDoc, doc } from 'firebase/firestore';
 import { firestore } from '../../authentication/firebase';
 
@@ -41,7 +41,7 @@ const OrderHistory = () => {
           }));
 
           // Append the new orders to the existing array
-          setOrders((prevOrders) => [...prevOrders, ...newOrders]);
+          setOrders(newOrders);
           // setOrders(documentData);
 
 

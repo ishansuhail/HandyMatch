@@ -1,61 +1,74 @@
-/* src/professionalProfile/ProfessionalProfile.css */
+/* src/HomeownerProfile/HomeownerProfile.css */
 
 .profile-header {
-    background-color: #f0f0f0; /* Light grey background */
-    padding: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .profile-info {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .profile-name {
-    font-size: 3em;
-    font-weight: bold;
-    margin-bottom: 15px; /* Increase margin below the name */
-    margin-left: 10px;
-  }
-  
-  .book-button {
-    padding: 8px 16px; /* Smaller padding for a smaller button */
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9em; /* Slightly smaller font size */
-    margin-top: 10px; /* Add padding above the button */
-  }
-  
-  .book-button:hover {
-    background-color: #555; /* Slightly lighter on hover */
-  }
-  
-  .profile-picture {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 150px; /* Move profile picture to the left */
-  }
-  
-  .profile-picture svg {
-    width: 150px; /* Increase size of the profile picture */
-    height: 150px;
-  }  
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+}
 
-  .services-header {
-    font-size: 1.5em; /* Adjust size as needed */
+.profile-name {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.profile-email {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Form container */
+.profile-form {
+    padding: 20px;
+    padding-left: 40px; /* Add padding on the left for the form */
+    max-width: 600px; /* Restrict the width of the form */
+    margin: 0; /* Remove auto-centering */
+    text-align: left; /* Align form content to the left */
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column; /* Stack label and input vertically */
+    align-items: flex-start; /* Ensure alignment to the left */
+}
+
+.label {
+    font-size: 1.1em;
     font-weight: bold;
     color: #333;
-    margin-bottom: 20px;
-  }
+    margin-bottom: 5px;
+}
 
-  .reviews-container {
+.input-group {
     display: flex;
-    gap: 20px; /* Add space between each card */
-    flex-wrap: wrap; /* Allows cards to wrap to the next line on smaller screens */
-  }
+    align-items: center;
+    justify-content: flex-start; /* Align input group to the left */
+    width: 100%; /* Ensure it spans the container width */
+}
+
+.input-field {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 1em;
+    width: 100%; /* Make the input span the container */
+    max-width: 400px; /* Restrict the input width */
+    margin-right: 10px;
+    text-align: left; /* Align text inside the input to the left */
+    box-sizing: border-box;
+}
+
+.edit-icon {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 1.2em;
+    transition: color 0.3s;
+}
+
+.edit-icon:hover {
+    color: #0056b3;
+}

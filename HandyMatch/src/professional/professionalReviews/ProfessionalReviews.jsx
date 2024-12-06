@@ -1,13 +1,12 @@
 // src/ProfessionalReviews/ProfessionalReviews.jsx
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../Sidebar';
-import ReviewCard from '../ReviewCard';
+import ReviewCard from '../../homeOwner/ReviewCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProfessionalReviews.css';
 import { auth, firestore } from '../../authentication/firebase';
 import { doc, getDoc  } from 'firebase/firestore';
-
-const mockProfessionalReviews = [];
+import ProfessionalReviewCard from '../ProfessionalReviewCard';
 
 const ProfessionalReviews = () => {
 
@@ -73,7 +72,7 @@ const ProfessionalReviews = () => {
               <p>No reviews yet.</p>
             ) : (
               reviews.map((review, index) => (
-                <ReviewCard
+                <ProfessionalReviewCard
                   key={index}
                   stars={review.rating}
                   feedback={review.review}

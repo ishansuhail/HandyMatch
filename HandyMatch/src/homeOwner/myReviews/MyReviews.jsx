@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import HomeownerSidebar from '../HomeownerSidebar';
-import ReviewCard from '../../professional/ReviewCard';
+import ReviewCard from '../ReviewCard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './MyReviews.css';
 import { doc, getDoc } from 'firebase/firestore';
