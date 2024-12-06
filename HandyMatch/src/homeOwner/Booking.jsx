@@ -89,6 +89,7 @@ const Booking = () => {
       professional: fname + " " + lname,
       service: service,
       address: address,
+      email: customerData.email,
     };
   
     try {
@@ -316,7 +317,7 @@ const Booking = () => {
 
       
       <div className="mt-5"><FAQ/></div>
-      
+
     </Container>
   );
 };

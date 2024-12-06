@@ -51,8 +51,13 @@ const MyReviews = () => {
       const docSnap = await getDoc(reviewsRef)
 
       if (docSnap.exists()) {
-        setReviews(docSnap.data().reviews)
+        const data = docSnap.data();
+        setReviews(data?.reviews || []);
       }
+      else {
+        setReviews([])
+      }
+
 
     }
     fetchReviews();

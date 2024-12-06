@@ -99,6 +99,10 @@ const ProfessionalDash = () => {
           data.forEach(async (job) => {
 
             if (job.customer === name && job.date.split('T')[0] === dateRequested) {
+
+              if(job.email){
+                console.log('Email', job.email);
+              }
               
             
               const newJobRef = doc(firestore, "AcceptedJobs", _doc.id);
