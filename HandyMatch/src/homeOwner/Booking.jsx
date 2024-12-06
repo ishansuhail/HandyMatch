@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { firestore } from "../authentication/firebase";
 import DatePicker from "react-datepicker";
+import FAQ from "../components/ProfessionalProfile/FAQ";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Booking = () => {
@@ -26,6 +27,8 @@ const Booking = () => {
   const [lname, setLname] = useState(_lname);
   const [service, setService] = useState('')
   const [services, setServices] = useState([]);
+  const [description, setDescription] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(""); // Stores professional phone number
 
   const [showCalendar, setShowCalendar] = useState(false); // Controls calendar modal visibility
   const [selectedDate, setSelectedDate] = useState(null); // Stores selected date and time
@@ -46,6 +49,8 @@ const Booking = () => {
           // Document data
           console.log("Document data:", docSnap.data().skills);
           setServices(docSnap.data().skills);
+          setDescription(docSnap.data().businessDescription);
+          setPhoneNumber(docSnap.data().phoneNumber);
         } else {
           console.log("No such document!");
         }
@@ -210,10 +215,14 @@ const Booking = () => {
                   <h5 className="mb-0">{service}</h5>
                 </div>
               </Card.Body>
+
             </Card>
           </Col>
         ))}
       </Row>
+      
+      
+
 
       {/* Calendar Modal */}
       <Modal show={showCalendar} onHide={handleCalendarClose} centered>
@@ -294,6 +303,20 @@ const Booking = () => {
           </Col>
         </Row>
       )}
+      <Row className="mt-4">
+        <Col className="d-flex flex-column align-items-center">
+          <h3 className="fw-bold d-inline">About {fname}: </h3>
+          <span className="fs-5">{description}</span>
+        </Col>
+        <Col className="d-flex flex-column align-items-center">
+          <h3 className="fw-bold d-inline">Number: </h3>
+          <span className="fs-5">{phoneNumber}</span>
+        </Col>
+      </Row>
+
+      
+      <div className="mt-5"><FAQ/></div>
+      
     </Container>
   );
 };

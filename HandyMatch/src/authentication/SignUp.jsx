@@ -63,6 +63,7 @@ const SignUp = ({ onToggle }) => {
         businessDescription: userType === "Professional" ? businessDescription : null,
         profilePhoto: profilePhoto ? await uploadProfilePhoto(profilePhoto) : null,
       });
+      
 
       navigate(userType === "Customer" ? '/home' : '/professional-dashboard');
     } catch (error) {
@@ -93,7 +94,7 @@ const SignUp = ({ onToggle }) => {
 
       // Create a Firestore document with firstName + "_" + lastName + "_" + UID as the document ID
       const userDoc = doc(firestore, "Users", docId);
-      await setDoc(userDoc, {
+      const signUpDoc =  {
         email,
         firstName,
         lastName,
@@ -105,7 +106,10 @@ const SignUp = ({ onToggle }) => {
         businessDescription: userType === "Professional" ? businessDescription : null,
         profilePhoto: profilePhoto ? await uploadProfilePhoto(profilePhoto) : null,
         zipcode: zipcode
-      });
+      }
+
+      localStorage.setItem("user", JSON.stringify(signUpDoc));
+      await setDoc(userDoc, signUpDoc);
 
       navigate(userType === "Customer" ? '/home' : '/professional-dashboard');
     } catch (error) {
