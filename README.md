@@ -32,8 +32,9 @@ cd /path/to/your/project
 # Clone the repository
 git clone https://github.com/ishansuhail/HandyMatch.git
 
-# Navigate to the project directory
+# Navigate to the React App directory
 cd HandyMatch/HandyMatch
+
 ```
 
 ### 2. Install Dependencies
@@ -54,7 +55,7 @@ yarn
 6. Save your API key securely
 
 ### 4. Configure Environment Variables
-1. Create a `.env` file in the React app directory:
+1. Create a `.env` file in the React app directory NOT THE PROJECT DIRECTORY:
 ```bash
 touch .env
 ```
