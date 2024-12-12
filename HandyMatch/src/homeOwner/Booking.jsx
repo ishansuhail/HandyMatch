@@ -74,6 +74,7 @@ const Booking = () => {
     setService(e.target.value);
   };
 
+
   const handleConfirm = async () => {
     if (!selectedDate || !address) {
       alert("Please select a date and enter an address.");
